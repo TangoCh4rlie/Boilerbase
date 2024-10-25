@@ -1,6 +1,7 @@
 import { useAuthStore } from '@/stores/auth.store'
 
 const request = (method: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (url: string, body: any) => {
         const requestOptions: RequestInit = {
             method,
