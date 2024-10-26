@@ -3,8 +3,8 @@ import type { Like } from '@/models/like.model'
 
 export interface User {
   id?: number
-  username: string
-  email: string
+  username?: string
+  email?: string
   password?: string
   avatar?: string
   boilerplates?: Boilerplate[]

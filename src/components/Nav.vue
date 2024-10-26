@@ -57,7 +57,7 @@ onBeforeUnmount(() => {
 <!--          >{{ item.name }}</a-->
 <!--        >-->
         <div class="relative mt-2 flex items-center">
-          <input type="text" name="search" id="search" class="block w-full rounded-md border-0 py-1.5 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+          <input @keyup.enter="router.push('/search')" ref="searchInput" type="text" name="search" id="search" class="block w-full rounded-md border-0 py-1.5 pl-2 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
             <kbd class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400">⌘K</kbd>
           </div>
@@ -161,40 +161,3 @@ onBeforeUnmount(() => {
     </Dialog>
   </header>
 </template>
-
-<!--<template>-->
-<!--  <fwb-navbar>-->
-<!--    <template #logo>-->
-<!--      <fwb-navbar-logo alt="Flowbite logo" image-url="/images/logo.svg" link="#">-->
-<!--        Flowbite-->
-<!--      </fwb-navbar-logo>-->
-<!--    </template>-->
-<!--  </fwb-navbar>-->
-<!--  <div class="m-2">-->
-<!--    <div class="flex items-center">-->
-<!--      <div class="flex items-center gap-x-2 cursor-pointer" onclick="router.push('/')">-->
-<!--        <img-->
-<!--          class="h-10 w-10 rounded"-->
-<!--          src="https://avatars.githubusercontent.com/u/50408224?v=4"-->
-<!--          alt="Boilerbase Logo"-->
-<!--        />-->
-<!--        <h1 class="text-3xl font-bold">BoilerBase</h1>-->
-<!--      </div>-->
-<!--      <div class="flex items-center gap-x-8">-->
-<!--        <router-link to="/">Home</router-link>-->
-<!--        <router-link to="/boilerplate">Boilerplates</router-link>-->
-<!--      </div>-->
-<!--      <div class="flex items-center gap-x-4">-->
-<!--&lt;!&ndash;          TODO changer&ndash;&gt;-->
-<!--        <input-->
-<!--          icon="i-heroicons-magnifying-glass-20-solid"-->
-<!--          color="white"-->
-<!--          :trailing="false"-->
-<!--          placeholder="Search..."-->
-<!--        />-->
-<!--&lt;!&ndash;          TODO icon&ndash;&gt;-->
-<!--&lt;!&ndash;        <i name="i-heroicons-user" class="w-6 h-6" @click="onClickProfile"/>&ndash;&gt;-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</template>-->

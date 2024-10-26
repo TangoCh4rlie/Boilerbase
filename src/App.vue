@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import Nav from '@/components/Nav.vue'
-import Alert from '@/components/Alert.vue'
+import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
   <Nav />
-  <Alert />
   <RouterView />
+  <Footer />
 </template>

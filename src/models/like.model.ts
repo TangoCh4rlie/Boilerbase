@@ -2,9 +2,9 @@ import type { User } from '@/models/user.model'
 import type { Boilerplate } from '@/models/boilerplate.model'
 
 export interface Like {
-  id: number
-  boilerplateId: number
+  id?: number
+  boilerplateId?: number
   boilerplate?: Boilerplate
-  userId: number
+  userId?: number
   user?: User
 }
