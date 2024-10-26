@@ -11,7 +11,7 @@ const request = (method: string) => {
             },
             ...(body && { body: JSON.stringify(body) })
         }
-        return fetch(url, requestOptions).then(handleResponse)
+        return fetch(import.meta.env.VITE_NEST_API_URL + url, requestOptions).then(handleResponse)
     }
 }
 

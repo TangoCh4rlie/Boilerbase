@@ -15,7 +15,7 @@ export const useAuthStore = defineStore({
     async login(code: string) {
       try {
         const { accessToken, user } = await fetchWrapper.get(
-          'http://localhost:3001/auth/github/callback?code=' + code,
+          '/auth/github/callback?code=' + code,
           null,
         )
 
@@ -26,9 +26,6 @@ export const useAuthStore = defineStore({
         localStorage.setItem('jwtToken', JSON.stringify(accessToken))
 
         window.location.href = this.returnUrl || '/'
-        //TODO: comprendre pourquoi ça ne marche pas
-
-        // router.push(this.returnUrl || '/')
       } catch (error) {
         const alertStore = useAlertStore()
         alertStore.error(error as string)
@@ -37,7 +34,7 @@ export const useAuthStore = defineStore({
     async delete() {
       if (!this.user) return
       await fetchWrapper.delete(
-        import.meta.env.API_URL + 'user/' + this.user.id,
+        '/user/' + this.user.id,
         null,
       )
       this.logout()
@@ -45,7 +42,7 @@ export const useAuthStore = defineStore({
     logout() {
       this.user = null
       localStorage.removeItem('user')
-      router.push('/')
+      window.location.href = '/'
     },
   },
 })
