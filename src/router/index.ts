@@ -19,14 +19,21 @@ const router = createRouter({
       component: () => import('@/views/SearchView.vue')
     },
     {
+      path: '/boilerplate/:name',
+      component: () => import('@/views/boilerplate/BoilerplateView.vue')
+    },
+    {
         path: '/login',
-        name: 'login',
         component: Login,
     },
     {
         path: '/github/callback',
         component: Callback,
-    }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/'
+    },
   ]
 })
 
