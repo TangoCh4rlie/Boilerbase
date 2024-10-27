@@ -5,15 +5,23 @@ import { ref } from 'vue'
 import { useBoilerplateStore } from '@/stores/boilerplate.store'
 import { storeToRefs } from 'pinia'
 import BoilerPreviewComponent from '@/components/BoilerPreviewComponent.vue'
+import { useSearchStore } from '@/stores/search.store'
 
 const boilerplateStore = useBoilerplateStore()
 const { searchedBoilerplates } = storeToRefs(boilerplateStore)
 
+const searchStore = useSearchStore()
+const { name, languages, features } = storeToRefs(searchStore)
+
 const inputSearch = ref('')
 
 const searchBoilerplates = async () => {
-  const result = await boilerplateStore.searchBoilerplates(inputSearch.value)
-  console.log(result)
+  console.log(name.value, languages.value, features.value)
+  await boilerplateStore.searchBoilerplates(
+    name.value,
+    languages.value,
+    features.value,
+  )
 }
 </script>
 
@@ -34,7 +42,7 @@ const searchBoilerplates = async () => {
         />
 
         <input
-          v-model="inputSearch"
+          v-model="name"
           class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pl-10 pr-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
           placeholder="UI Kits, Dashboards..."
         />
@@ -47,16 +55,32 @@ const searchBoilerplates = async () => {
           Search
         </button>
       </div>
-    </div>
-    <div class="flex justify-start mt-4">
-      <LanguageFilterComponent />
+      <div class="mt-4 items-start">
+        <span
+          v-for="(language, index) in languages"
+          :key="index"
+          class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
+          >{{ language }}</span
+        >
+        <span
+          v-for="(feat, index) in features"
+          :key="index"
+          class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"
+          >{{ feat }}</span
+        >
+        <LanguageFilterComponent />
+      </div>
     </div>
   </div>
   <ul
     role="list"
     class="mx-5 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
   >
-    <li v-for="boilerplate in searchedBoilerplates" :key="boilerplate.id" class="overflow-hidden rounded-xl border border-gray-200">
+    <li
+      v-for="boilerplate in searchedBoilerplates"
+      :key="boilerplate.id"
+      class="overflow-hidden rounded-xl border border-gray-200"
+    >
       <BoilerPreviewComponent :boilerplate="boilerplate" />
     </li>
   </ul>

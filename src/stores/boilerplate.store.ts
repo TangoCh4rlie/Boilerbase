@@ -15,9 +15,17 @@ export const useBoilerplateStore = defineStore({
     likeBoilerplate(id: number) {
       fetchWrapper.put(`like/${id}`, null, true);
     },
-    async searchBoilerplates(name: string) {
+    async searchBoilerplates(name: string, languages: string[], features: string[]) {
+      console.log(name, languages, features);
       this.searchedBoilerplates = null;
-      this.searchedBoilerplates = await fetchWrapper.get(`boilerplate/search?name=${name}`, null, false);
+
+      const languagesParams = new URLSearchParams();
+      languages.forEach(language => languagesParams.append('languages', language));
+
+      const featuresParams = new URLSearchParams();
+      features.forEach(feature => featuresParams.append('features', feature));
+
+      this.searchedBoilerplates = await fetchWrapper.get(`boilerplate/search?name=${name}&${languagesParams}&${featuresParams}`, null, false);
     }
   }
 })
