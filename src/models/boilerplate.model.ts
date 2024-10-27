@@ -4,6 +4,7 @@ import type { Like } from '@/models/like.model'
 export interface Boilerplate {
   id: number
   name: string
+  githubName: string
   description: string
   gitUrl: string
   languages: string[]
@@ -16,4 +17,5 @@ export interface Boilerplate {
   likes?: Like[]
   createdAt: Date
   liked?: boolean
+  defaultBranch: string
 }
