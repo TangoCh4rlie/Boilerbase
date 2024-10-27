@@ -9,7 +9,6 @@ const { user } = useAuthStore()
 
 const navigation = [
   { name: 'Boilerplates', href: '/boilerplates' },
-  // { name: 'Profile', href: '/profile' },
 ]
 
 const mobileMenuOpen = ref(false)
@@ -39,34 +38,33 @@ onBeforeUnmount(() => {
       aria-label="Global"
     >
       <div class="flex lg:flex-1">
-        <a href="/" class="-m-1.5 p-1.5">
-          <span class="sr-only">Your Company</span>
+        <a href="/" class="-m-1.5 p-1.5 flex gap-3.5">
           <img
             class="h-10 rounded w-auto"
             src="https://avatars.githubusercontent.com/u/50408224?v=4"
             alt=""
           />
+          <h1 class="text-balance text-4xl font-semibold tracking-tight text-gray-900">Boilerbase</h1>
         </a>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-<!--        <a-->
-<!--          v-for="item in navigation"-->
-<!--          :key="item.name"-->
-<!--          :href="item.href"-->
-<!--          class="text-sm font-semibold leading-6 text-gray-900"-->
-<!--          >{{ item.name }}</a-->
-<!--        >-->
         <div class="relative mt-2 flex items-center">
-          <input
-            @keyup.enter="router.push('/search')"
-            ref="searchInput"
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search..."
-            class="block w-full rounded-md border-0 py-1.5 pl-2 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-          <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-            <kbd class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400">⌘K</kbd>
+          <div v-if="router.currentRoute.value.path !== '/search'">
+            <input
+              @keyup.enter="router.push('/search')"
+              ref="searchInput"
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Search..."
+              class="block w-full rounded-md border-0 py-1.5 pl-2 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+            <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+              <kbd
+                class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400"
+                >⌘K</kbd
+              >
+            </div>
           </div>
         </div>
       </div>

@@ -51,7 +51,7 @@ const likeBoilerplate = (boilerplateId: number) => {
     <div class="text-xl font-medium leading-6 text-gray-900">
       <p>{{ boilerplate.name }}</p>
     </div>
-    <div class="flex gap-1">
+    <div class="flex gap-1.5">
       <img
         v-for="(language, index) in boilerplate.languages"
         width="30"
