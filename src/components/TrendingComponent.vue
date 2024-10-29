@@ -11,6 +11,7 @@ const { topBoilerplates } = storeToRefs(boilerplateStore)
 
 onMounted(async () => {
   await boilerplateStore.getTopBoilerplate()
+  await boilerplateStore.getBoilerplateHistory()
 })
 </script>
 

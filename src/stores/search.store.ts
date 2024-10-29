@@ -6,5 +6,6 @@ export const useSearchStore = defineStore({
     name: '' as string,
     languages: [] as string[],
     features: [] as string[],
+    displaySearchBar: false,
   })
 })

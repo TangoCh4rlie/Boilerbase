@@ -7,25 +7,47 @@ export const useBoilerplateStore = defineStore({
   state: () => ({
     topBoilerplates: null as Boilerplate[] | null,
     searchedBoilerplates: null as Boilerplate[] | null,
+    boilerplateHistory: null as Boilerplate[] | null
   }),
   actions: {
     async getTopBoilerplate() {
-      this.topBoilerplates = await fetchWrapper.get('boilerplate/top?number=3', null, true);
+      this.topBoilerplates = await fetchWrapper.get(
+        'boilerplate/top?number=3',
+        null,
+        true,
+      )
     },
     likeBoilerplate(id: number) {
-      fetchWrapper.put(`like/${id}`, null, true);
+      fetchWrapper.put(`like/${id}`, null, true)
     },
-    async searchBoilerplates(name: string, languages: string[], features: string[]) {
-      console.log(name, languages, features);
-      this.searchedBoilerplates = null;
+    async searchBoilerplates(
+      name: string,
+      languages: string[],
+      features: string[],
+    ) {
+      console.log(name, languages, features)
+      this.searchedBoilerplates = null
 
-      const languagesParams = new URLSearchParams();
-      languages.forEach(language => languagesParams.append('languages', language));
+      const languagesParams = new URLSearchParams()
+      languages.forEach(language =>
+        languagesParams.append('languages', language)
+      )
 
-      const featuresParams = new URLSearchParams();
-      features.forEach(feature => featuresParams.append('features', feature));
+      const featuresParams = new URLSearchParams()
+      features.forEach(feature => featuresParams.append('features', feature))
 
-      this.searchedBoilerplates = await fetchWrapper.get(`boilerplate/search?name=${name}&${languagesParams}&${featuresParams}`, null, false);
+      this.searchedBoilerplates = await fetchWrapper.get(
+        `boilerplate/search?name=${name}&${languagesParams}&${featuresParams}`,
+        null,
+        false
+      )
+    },
+    async getBoilerplateHistory() {
+      this.boilerplateHistory = await fetchWrapper.get(
+        'boilerplate/me/history',
+        null,
+        true
+      )
     }
-  }
+  },
 })

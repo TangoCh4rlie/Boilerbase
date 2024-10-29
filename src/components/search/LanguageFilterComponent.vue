@@ -48,7 +48,7 @@ function addLanguage() {
     </ComboboxLabel>
     <div class="relative mt-1">
       <ComboboxInput
-        class="w-36 rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        class="w-36 rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow   sm:text-sm sm:leading-6"
         @change="query = $event.target.value"
         @blur="query = ''"
         :display-value="() => query"
