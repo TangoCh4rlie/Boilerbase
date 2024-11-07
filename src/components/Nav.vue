@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, PlusIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import router from '@/router'
@@ -26,7 +26,7 @@ const mobileMenuOpen = ref(false)
           <img
             class="h-10 rounded w-auto"
             src="https://avatars.githubusercontent.com/u/50408224?v=4"
-            alt=""
+            alt="Logo"
           />
           <h1 class="text-balance text-4xl font-semibold tracking-tight text-gray-900">Boilerbase</h1>
         </a>
@@ -54,6 +54,7 @@ const mobileMenuOpen = ref(false)
       </div>
       <div class="flex flex-1 items-center justify-end gap-x-6">
         <button
+          v-if="router.currentRoute.value.path !== '/new'"
           type="button"
           @click="router.push('/new')"
           class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
@@ -83,16 +84,16 @@ const mobileMenuOpen = ref(false)
           >Log in</a
         >
       </div>
-      <div class="flex lg:hidden">
-        <button
-          type="button"
-          class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-          @click="mobileMenuOpen = true"
-        >
-          <span class="sr-only">Open main menu</span>
-          <Bars3Icon class="h-6 w-6" aria-hidden="true" />
-        </button>
-      </div>
+<!--      <div class="flex lg:hidden">-->
+<!--        <button-->
+<!--          type="button"-->
+<!--          class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"-->
+<!--          @click="mobileMenuOpen = true"-->
+<!--        >-->
+<!--          <span class="sr-only">Open main menu</span>-->
+<!--          <Bars3Icon class="h-6 w-6" aria-hidden="true" />-->
+<!--        </button>-->
+<!--      </div>-->
     </nav>
     <Dialog
       class="lg:hidden"

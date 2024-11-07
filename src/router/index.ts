@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/HomeView.vue'
 import Callback from '@/views/login/CallbackView.vue'
 import Login from '@/views/login/LoginView.vue'
+import { useAuthStore } from '@/stores/auth.store'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,11 +12,19 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: Home
+      component: Home,
     },
     {
       path: '/profile',
-      component: () => import('@/views/ProfileView.vue')
+      component: () => import('@/views/ProfileView.vue'),
+      beforeEnter: (to, from, next) => {
+        const { user } = useAuthStore()
+        if (user) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
     },
     {
       path: '/search',
@@ -26,18 +35,22 @@ const router = createRouter({
       component: () => import('@/views/boilerplate/BoilerplateView.vue')
     },
     {
-        path: '/login',
-        component: Login,
+      path: '/login',
+      component: () => import('@/views/login/LoginView.vue')
     },
     {
-        path: '/github/callback',
-        component: Callback,
+      path: '/github/callback',
+      component: () => import('@/views/login/CallbackView.vue')
+    },
+    {
+      path: '/new',
+      component: () => import('@/views/NewBoilerplateView.vue')
     },
     {
       path: '/:pathMatch(.*)*',
       redirect: '/'
     },
-  ]
+  ],
 })
 
 export default router

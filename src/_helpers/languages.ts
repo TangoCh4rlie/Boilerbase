@@ -44,4 +44,6 @@ export const availableLanguages: string[] = [
   'clojure',
   'crystal',
   'julia',
+  'html5',
+  'css'
 ];

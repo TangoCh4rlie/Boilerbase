@@ -7,7 +7,7 @@ export const useBoilerplateStore = defineStore({
   state: () => ({
     topBoilerplates: null as Boilerplate[] | null,
     searchedBoilerplates: null as Boilerplate[] | null,
-    boilerplateHistory: null as Boilerplate[] | null
+    boilerplateHistory: null as Boilerplate[] | null,
   }),
   actions: {
     async getTopBoilerplate() {
@@ -21,33 +21,44 @@ export const useBoilerplateStore = defineStore({
       fetchWrapper.put(`like/${id}`, null, true)
     },
     async searchBoilerplates(
-      name: string,
+      names: string[],
       languages: string[],
       features: string[],
     ) {
-      console.log(name, languages, features)
-      this.searchedBoilerplates = null
-
       const languagesParams = new URLSearchParams()
-      languages.forEach(language =>
-        languagesParams.append('languages', language)
-      )
+      if (languages.length !== 0) {
+        languages.forEach(language =>
+          languagesParams.append('languages', language),
+        )
+      }
 
       const featuresParams = new URLSearchParams()
-      features.forEach(feature => featuresParams.append('features', feature))
+      if (features.length !== 0) {
+        features.forEach(feature => featuresParams.append('features', feature))
+      }
+
+      const nameParams = new URLSearchParams()
+      if (names.length !== 0) {
+        names = names.filter(name => name !== '')
+        names.forEach(name => {
+          if (name !== '') {
+            nameParams.append('names', name)
+          }
+        })
+      }
 
       this.searchedBoilerplates = await fetchWrapper.get(
-        `boilerplate/search?name=${name}&${languagesParams}&${featuresParams}`,
+        `boilerplate/search?${nameParams}${languagesParams.toString() ? '&' + languagesParams : ''}${featuresParams.toString() ? '&' + featuresParams : ''}`,
         null,
-        false
+        false,
       )
     },
     async getBoilerplateHistory() {
       this.boilerplateHistory = await fetchWrapper.get(
         'boilerplate/me/history',
         null,
-        true
+        true,
       )
-    }
+    },
   },
 })

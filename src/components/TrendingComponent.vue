@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
-
 import { useBoilerplateStore } from '@/stores/boilerplate.store'
 import { onMounted } from 'vue'
 import BoilerPreviewComponent from '@/components/BoilerPreviewComponent.vue'
+import { useAuthStore } from '@/stores/auth.store'
 
 const boilerplateStore = useBoilerplateStore()
 const { topBoilerplates } = storeToRefs(boilerplateStore)
 
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
+
 onMounted(async () => {
   await boilerplateStore.getTopBoilerplate()
-  await boilerplateStore.getBoilerplateHistory()
+  if (user.value !== null) {
+    boilerplateStore.getBoilerplateHistory()
+  }
 })
 </script>
 

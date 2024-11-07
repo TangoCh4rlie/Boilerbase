@@ -51,5 +51,8 @@ export const useAuthStore = defineStore({
       localStorage.removeItem('jwtToken')
       window.location.href = '/'
     },
+    setReturnUrl(url: string) {
+      this.returnUrl = url
+    }
   },
 })
