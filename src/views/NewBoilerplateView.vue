@@ -23,9 +23,10 @@ const md = markdownit({
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(str, { language: lang }).value
-      } catch (__) {}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {}
     }
-    return '' // use external default escaping
+    return ''
   },
   html: true,
   linkify: true,
@@ -87,28 +88,30 @@ const filtredLanguages = computed(() => {
   })
 })
 
-// const onFileChange = (event) => {
-//   const file = event.target.files[0]
-//   if (file) {
-//     console.log(file)
-//   }
-// }
+const imageFile = ref<File | null>(null)
 
-const fileInput = ref(null)
-const fileName = ref('')
+const onImageChange = async (event: Event): Promise<void> => {
+  const target = event.target as HTMLInputElement
+  const file = target.files ? target.files[0] : null
 
-const handleFileUpload = () => {
-  const file = fileInput.value.files[0] // Récupère le premier fichier sélectionné
-  if (file) {
-    fileName.value = file.name
-    console.log(fileInput.value, fileName.value)
-    // Met à jour le nom du fichier
-    // Vous pouvez maintenant utiliser le fichier, par exemple :
-    // - Envoyer le fichier via une requête HTTP
-    // - Lire son contenu avec FileReader, etc.
+  if (file && file.type.startsWith('image/')) {
+    imageFile.value = file
+    await uploadImage(file)
   }
 }
 
+const uploadImage = async (file: File): Promise<void> => {
+  const formData = new FormData()
+  formData.append('image', file)
+
+  try {
+    const response = await fetchWrapper.post('boilerplate/banner', formData, true)
+    console.log('Upload successful:', response)
+  } catch (error) {
+    // TODO: faire mieux que ca
+    console.error('Error uploading image:', error)
+  }
+}
 onMounted(async () => {
   githubRepos.value = await fetchWrapper.get(
     'github-api/user-repositories',
@@ -248,8 +251,8 @@ onMounted(async () => {
                       name="file-upload"
                       type="file"
                       class="sr-only"
-                      @change="handleFileUpload"
-                      ref="fileInput"
+                      @change="onImageChange"
+                      accept="image/*"
                     />
                   </label>
                   <p class="pl-1">or drag and drop</p>

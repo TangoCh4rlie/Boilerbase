@@ -1,32 +1,23 @@
 import { useAuthStore } from '@/stores/auth.store'
 
 const request = (method: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (url: string, body: any, auth: boolean) => {
+  return async (url: string, body: FormData | null, auth: boolean) => {
+    const { jwtToken } = useAuthStore()
     const requestOptions: RequestInit = {
       method,
       headers: {
-        ...authHeader(auth),
-        ...(body && { 'Content-Type': 'application/json' }),
+        Accept: 'application/json',
+        ...((auth && jwtToken !== null) && { Authorization: `Bearer ${jwtToken}` }),
+        ...(!(body instanceof FormData) && { 'Content-Type': 'application/json' }),
       },
-      ...(body && { body: JSON.stringify(body) }),
+      ...(body && { body: (body instanceof FormData ? body : JSON.stringify(body)) }),
     }
     return fetch(import.meta.env.VITE_NEST_API_URL + url, requestOptions).then(
+        // response => response
       handleResponse,
     )
   }
 }
-
-const authHeader = (auth: boolean) => {
-  const { jwtToken } = useAuthStore()
-  const isLoggedIn = jwtToken !== null
-  if (isLoggedIn && auth) {
-    return { Authorization: `Bearer ${jwtToken}` }
-  } else {
-    return {}
-  }
-}
-
 const handleResponse = async (response: Response) => {
   const isJson = response.headers?.get('content-type')?.includes('application/json')
   const data = isJson ? await response.json() : null
