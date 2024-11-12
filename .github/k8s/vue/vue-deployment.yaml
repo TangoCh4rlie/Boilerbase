@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: boilerbase-webapp
+  namespace: boilerbase
+  labels:
+    app: boilerbase-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: boilerbase-webapp
+  template:
+    metadata:
+      labels:
+        app: boilerbase-webapp
+    spec:
+      containers:
+        - name: boilerbase-webapp
+          image: tang0ch4rlie/boilerbasewebapp
+#          ports:
+#            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: webapp-secret
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: '100m'

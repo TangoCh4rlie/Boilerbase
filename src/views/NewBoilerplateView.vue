@@ -144,7 +144,9 @@ onMounted(async () => {
           <Combobox class="col-span-full mb-3" as="div" v-model="repo" @update:modelValue="queryNameProject = repo.name">
             <ComboboxLabel class="block text-sm/6 font-medium text-gray-900">Select your github repository</ComboboxLabel>
             <div class="relative mt-2">
-              <ComboboxInput class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" @change="queryNameProject = $event.target.value" :display-value="(selectedRepo: GitRepos) => selectedRepo?.name"/>
+              <ComboboxInput class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" @change="queryNameProject = $event.target.value" />
+<!--              FIXME-->
+<!--              :display-value="(selectedRepo: GitRepos) => selectedRepo?.name"-->
               <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
                 <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
               </ComboboxButton>
