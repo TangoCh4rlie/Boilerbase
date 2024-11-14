@@ -12,8 +12,7 @@ const request = (method: string) => {
       },
       ...(body && { body: (body instanceof FormData ? body : JSON.stringify(body)) }),
     }
-    return fetch(import.meta.env.VITE_NEST_API_URL + url, requestOptions).then(
-        // response => response
+    return fetch(import.meta.env.VITE_NEST_API_URL || "https://api.super-sympa.fr/" + url, requestOptions).then(
       handleResponse,
     )
   }

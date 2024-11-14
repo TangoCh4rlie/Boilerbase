@@ -4,13 +4,13 @@ import router from '@/router'
 
 const authStore = useAuthStore()
 if (authStore.user) {
-  router.push('/')
+  router.push('/profile')
 }
 
 async function login() {
   const clientId = 'Iv23liRAlnT23lQE2Avs'
   const redirectUri = encodeURIComponent(
-    'http://localhost:5173/github/callback',
+    'https://super-sympa.fr/github/callback',
   )
   const scope = 'public_profile'
   window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`
