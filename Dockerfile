@@ -2,10 +2,13 @@ FROM node:20 AS build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-COPY . .
+COPY ./ .
 RUN npm run build
 
-FROM nginx:1.27.2 AS prod-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM nginx
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY config/nginx.conf /etc/nginx/nginx.conf
+#COPY config/entrypoint.sh /entrypoint.sh
+#RUN chmod +x /entrypoint.sh
+#ENTRYPOINT ["/entrypoint.sh"]

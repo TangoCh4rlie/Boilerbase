@@ -6,6 +6,7 @@ import SearchBar from '@/components/search/SearchBar.vue'
 import { onBeforeUnmount, onMounted } from 'vue'
 import { useSearchStore } from '@/stores/search.store'
 import { storeToRefs } from 'pinia'
+import router from '@/router'
 
 const searchStore = useSearchStore()
 const { displaySearchBar } = storeToRefs(searchStore)
@@ -28,7 +29,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="flex flex-col min-h-screen">
-    <Nav />
+    <Nav v-if="!/^\/github\/callback/.test(router.currentRoute.value.path)" />
     <RouterView />
     <SearchBar />
     <Footer />
