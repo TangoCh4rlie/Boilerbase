@@ -13,4 +13,27 @@ spec:
         - name: boilerbase-webapp-svc
           port: 80
   tls:
-    secretName: boilerbase-webapp-certificate-secret
+    secretName: boilerbase-webapp-cert-secret-tls
+
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: boilerbase-webapp-ingress-https
+#  namespace: boilerbase
+#  annotations:
+#    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+#
+#spec:
+#  rules:
+#    - host: super-sympa.fr
+#      http:
+#        paths:
+#          - path: /
+#            pathType: Exact
+#            backend:
+#              service:
+#                name:  boilerbase-webapp-svc
+#                port:
+#                  number: 80
+#  tls:
+#    - secretName: boilerbase-webapp-cert-secret-tls

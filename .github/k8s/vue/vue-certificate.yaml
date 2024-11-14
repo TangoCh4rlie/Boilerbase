@@ -4,12 +4,11 @@ metadata:
   name: boilerbase-webapp-certificate
   namespace: boilerbase
 spec:
+  # Secret pour stocker les certificats
+  secretName: boilerbase-webapp-cert-secret-tls
   # certificats wildcard
   dnsNames:
     - 'super-sympa.fr'
-
   issuerRef:
     kind: ClusterIssuer
-    name: cert-manager-boilerbase-webapp-stats #notre issuer
-  # Secret pour stocker les certificats
-  secretName: boilerbase-webapp-certificate-secret
+    name: boilerbase-webapp-selfsigned-issuer #notre issuer
