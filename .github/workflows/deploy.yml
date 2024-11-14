@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
   build_and_push:
@@ -57,10 +58,10 @@ jobs:
         with:
          namespace: boilerbase
          manifests: |
-           .github/workflows/k8s/deployment.yaml
+           .github/workflows/k8s/vue/vue-deployment.yaml
 #           .github/workflows/k8s/ingress.yaml
 #           .github/workflows/k8s/service.yaml
          images: |
-           aimerisson/herisson.dev:${{ steps.commit.outputs.short }}
+           tang0ch4rlie/boilerbasewebapp:${{ steps.commit.outputs.short }}
 #      - name: Deploy to Cluster
 #        run: kubectl apply -f ".github/k8s/vue-deployment.yaml"
