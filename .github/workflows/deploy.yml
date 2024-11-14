@@ -58,7 +58,7 @@ jobs:
         with:
          namespace: boilerbase
          manifests: |
-           .github/workflows/k8s/vue/vue-deployment.yaml
+           .github/k8s/vue/vue-deployment.yaml
 #           .github/workflows/k8s/ingress.yaml
 #           .github/workflows/k8s/service.yaml
          images: |
