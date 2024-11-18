@@ -51,17 +51,13 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
-#      - name: Replace Image Label
-#        run: sed -i'' -e 's/IMAGE_LABEL/${{ steps.commit.outputs.short }}/g' ".github/k8s/vue-deployment.yaml"
       - name: Deploy to the Kubernetes cluster
         uses: azure/k8s-deploy@v1
         with:
          namespace: boilerbase
          manifests: |
            .github/k8s/vue/vue-deployment.yaml
-#           .github/workflows/k8s/ingress.yaml
-#           .github/workflows/k8s/service.yaml
+           .github/k8s/vue/vue-ingress.yaml
+           .github/k8s/vue/vue-service.yaml
          images: |
            tang0ch4rlie/boilerbasewebapp:${{ steps.commit.outputs.short }}
-#      - name: Deploy to Cluster
-#        run: kubectl apply -f ".github/k8s/vue-deployment.yaml"

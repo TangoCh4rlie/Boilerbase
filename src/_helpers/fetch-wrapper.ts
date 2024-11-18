@@ -1,5 +1,7 @@
 import { useAuthStore } from '@/stores/auth.store'
 
+const API_URL = import.meta.env.VITE_NEST_API_URL || "https://api.super-sympa.fr/"
+
 const request = (method: string) => {
   return async (url: string, body: FormData | null, auth: boolean) => {
     const { jwtToken } = useAuthStore()
@@ -12,7 +14,7 @@ const request = (method: string) => {
       },
       ...(body && { body: (body instanceof FormData ? body : JSON.stringify(body)) }),
     }
-    return fetch(import.meta.env.VITE_NEST_API_URL || "https://api.super-sympa.fr/" + url, requestOptions).then(
+    return fetch(API_URL + url, requestOptions).then(
       handleResponse,
     )
   }
