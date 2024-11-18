@@ -104,7 +104,6 @@ onMounted(async () => {
           <!--          />-->
           <div>
             <article
-              contenteditable="true"
               v-html="md.render(boilerplate?.description || '')"
               class="markdown"
             ></article>
