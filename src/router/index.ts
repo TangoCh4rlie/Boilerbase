@@ -25,10 +25,6 @@ const router = createRouter({
       }
     },
     {
-      path: '/search',
-      component: () => import('@/views/SearchView.vue')
-    },
-    {
       path: '/boilerplate/:name',
       component: () => import('@/views/boilerplate/BoilerplateView.vue')
     },
@@ -42,7 +38,7 @@ const router = createRouter({
     },
     {
       path: '/new',
-      component: () => import('@/views/NewBoilerplateView.vue')
+      component: () => import('@/views/boilerplate/NewBoilerplateView.vue')
     },
     {
       path: '/:pathMatch(.*)*',
