@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth.store'
 const API_URL = import.meta.env.VITE_NEST_API_URL || "https://api.super-sympa.fr/"
 
 const request = (method: string) => {
-  return async (url: string, body: FormData | null, auth: boolean) => {
+  return async (url: string, body: FormData | string | null, auth: boolean) => {
     const { jwtToken } = useAuthStore()
     const requestOptions: RequestInit = {
       method,
@@ -12,7 +12,7 @@ const request = (method: string) => {
         ...((auth && jwtToken !== null) && { Authorization: `Bearer ${jwtToken}` }),
         ...(!(body instanceof FormData) && { 'Content-Type': 'application/json' }),
       },
-      ...(body && { body: (body instanceof FormData ? body : JSON.stringify(body)) }),
+      ...(body && { body: body }),
     }
     return fetch(API_URL + url, requestOptions).then(
       handleResponse,

@@ -9,7 +9,7 @@ export interface Boilerplate {
   gitUrl: string
   languages: string[]
   features: string[]
-  logo: string
+  logo?: string
   likesCounter: number
   usesCounter: number
   authorId: number | null
@@ -18,4 +18,18 @@ export interface Boilerplate {
   createdAt: Date
   liked?: boolean
   defaultBranch: string
+}
+
+export interface CreateBoilerplate {
+  name: string;
+  description: string;
+  gitUrl: string;
+  languages: string[];
+  features: string[];
+  likesCounter?: number;
+  usesCounter?: number;
+  authorId: string;
+  logo?: string;
+  defaultBranch: string;
+  githubName: string;
 }

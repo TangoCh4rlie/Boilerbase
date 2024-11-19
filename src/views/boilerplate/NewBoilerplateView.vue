@@ -8,7 +8,6 @@ import {
   ComboboxOptions,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
-import { PhotoIcon } from '@heroicons/vue/24/solid'
 import router from '@/router'
 import { computed, onMounted, ref, watch } from 'vue'
 import { fetchWrapper } from '@/_helpers/fetch-wrapper'
@@ -17,6 +16,12 @@ import { availableLanguages } from '@/_helpers/languages'
 import markdownit from 'markdown-it'
 import hljs from 'highlight.js'
 import { PencilSquareIcon } from '@heroicons/vue/24/outline'
+import type { CreateBoilerplate } from '@/models/boilerplate.model'
+import { useAuthStore } from '@/stores/auth.store'
+import { useBoilerplateStore } from '@/stores/boilerplate.store'
+
+const authStore = useAuthStore()
+const boilerplateStore = useBoilerplateStore()
 
 const md = markdownit({
   highlight: function (str, lang) {
@@ -36,10 +41,11 @@ const md = markdownit({
 const allAvailableLanguages = availableLanguages;
 const githubRepos = ref<GitRepos[]>([])
 
-const repo = ref<GitRepos>({ name: '', description: '', html_url: '', distinctLanguages: [] })
+const repo = ref<GitRepos>({ name: '', description: '', html_url: '', distinctLanguages: [], default_branch: '' })
 const queryNameProject = ref('')
-const isHoverCombo = ref(false)
 const queryLanguage = ref('')
+const featureQuery = ref('')
+const featureList = ref<string[]>([])
 const selectedLanguage = ref<string>()
 const editMode = ref(false)
 
@@ -55,7 +61,8 @@ watch(() => repo.value, async (newValue) => {
     if (values[1]?.download_url) {
       repo.value.description = await fetch(values[1].download_url).then((response) => response.text());
     } else {
-    //   TODO: mettre un message d'erreur
+      repo.value.description = '';
+      //   TODO: mettre un message d'erreur
     }
   }
 })
@@ -88,36 +95,61 @@ const filtredLanguages = computed(() => {
   })
 })
 
-const imageFile = ref<File | null>(null)
-
-const onImageChange = async (event: Event): Promise<void> => {
-  const target = event.target as HTMLInputElement
-  const file = target.files ? target.files[0] : null
-
-  if (file && file.type.startsWith('image/')) {
-    imageFile.value = file
-    await uploadImage(file)
+const addFeature = (): void => {
+  if (featureQuery.value) {
+    featureList.value?.push(featureQuery.value)
+    featureQuery.value = ''
   }
 }
 
-const uploadImage = async (file: File): Promise<void> => {
-  const formData = new FormData()
-  formData.append('image', file)
+// const imageFile = ref<File | null>(null)
+//
+// const onImageChange = async (event: Event): Promise<void> => {
+//   const target = event.target as HTMLInputElement
+//   const file = target.files ? target.files[0] : null
+//
+//   if (file && file.type.startsWith('image/')) {
+//     imageFile.value = file
+//     await uploadImage(file)
+//   }
+// }
+//
+// const uploadImage = async (file: File): Promise<void> => {
+//   const formData = new FormData()
+//   formData.append('image', file)
+//
+//   try {
+//     const response = await fetchWrapper.post('boilerplate/banner', formData, true)
+//     console.log('Upload successful:', response)
+//   } catch (error) {
+//     // TODO: faire mieux que ca
+//     console.error('Error uploading image:', error)
+//   }
+// }
 
-  try {
-    const response = await fetchWrapper.post('boilerplate/banner', formData, true)
-    console.log('Upload successful:', response)
-  } catch (error) {
-    // TODO: faire mieux que ca
-    console.error('Error uploading image:', error)
+const onFormSubmit = async () => {
+  if (authStore.user) {
+    const newBoilerplate: CreateBoilerplate = {
+      name: repo.value.name,
+      githubName: repo.value.name,
+      description: repo.value.description,
+      gitUrl: repo.value.html_url,
+      languages: repo.value.distinctLanguages,
+      features: featureList.value,
+      authorId: authStore.user.id as string,
+      defaultBranch: repo.value.default_branch,
+    }
+    await boilerplateStore.newBoilerplate(newBoilerplate);
   }
 }
+
 onMounted(async () => {
   githubRepos.value = await fetchWrapper.get(
     'github-api/user-repositories',
     null,
     true,
   )
+  featureList.value = []
 })
 </script>
 
@@ -126,7 +158,7 @@ onMounted(async () => {
     <div class="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-3">
       <div class="px-4 sm:px-0">
         <h3
-          class="mt-10 text-pretty text-xl font-semibold tracking-tight sm:text-6xl"
+          class="mt-10 text-pretty text-5xl font-semibold tracking-tight sm:text-6xl"
         >
           Share your own boilerplate with the
           <span class="text-indigo-600">community</span>
@@ -137,29 +169,30 @@ onMounted(async () => {
         </p>
       </div>
 
-      <form
-        class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
+      <div
+        class="bg-white rounded-xl shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
       >
-        <div class="px-4 py-6 sm:p-8" @mouseover="isHoverCombo = true" @mouseleave="isHoverCombo = false">
+        <div class="px-4 py-6 sm:p-8">
           <Combobox class="col-span-full mb-3" as="div" v-model="repo" @update:modelValue="queryNameProject = repo.name">
             <ComboboxLabel class="block text-sm/6 font-medium text-gray-900">Select your github repository</ComboboxLabel>
             <div class="relative mt-2">
-              <ComboboxInput class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" @change="queryNameProject = $event.target.value" />
-<!--              FIXME-->
-<!--              :display-value="(selectedRepo: GitRepos) => selectedRepo?.name"-->
+              <ComboboxInput
+                class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                @change="queryNameProject = $event.target.value"
+                :display-value="item => (item as GitRepos).name"
+              />
               <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
                 <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
               </ComboboxButton>
 
 <!--              FIXME: ishover does not working-->
-              <ComboboxOptions v-if="isHoverCombo || filtredGithubRepos.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <ComboboxOptions v-if="filtredGithubRepos.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 <ComboboxOption v-for="repo in filtredGithubRepos" :key="repo.id" :value="repo" as="template" v-slot="{ active, selected }">
                   <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-indigo-600 text-white outline-none' : 'text-gray-900']">
                     <span :class="['block truncate', selected && 'font-semibold']">
                       {{ repo.name }}
                     </span>
-
-                            <span v-if="selected" :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']">
+                    <span v-if="selected" :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']">
                       <CheckIcon class="h-5 w-5" aria-hidden="true" />
                     </span>
                   </li>
@@ -168,7 +201,7 @@ onMounted(async () => {
             </div>
           </Combobox>
 
-          <Combobox class="col-span-full mb-4"  as="div" v-model="selectedLanguage" @update:modelValue="queryLanguage = ''">
+          <Combobox class="col-span-full mb-3"  as="div" v-model="selectedLanguage" @update:modelValue="queryLanguage = ''">
             <ComboboxLabel class="block text-sm/6 font-medium text-gray-900">Languages of the boilerplate</ComboboxLabel>
             <div class="relative mt-2 mb-1">
               <ComboboxInput class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" @change="queryLanguage = $event.target.value" @blur="queryLanguage = ''"/>
@@ -191,13 +224,33 @@ onMounted(async () => {
             </div>
             <ul class="flex gap-1">
               <li v-for="lang in repo.distinctLanguages" :key="lang" class="text-sm/6 text-gray-600 cursor-pointer">
-                <span @click="repo.distinctLanguages = repo.distinctLanguages?.filter(l => l !== lang)" class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-600 ring-1 ring-inset ring-indigo-500/10">{{ lang }}</span>
+                <span @click="repo.distinctLanguages = repo.distinctLanguages.filter(l => l !== lang)" class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-600 ring-1 ring-inset ring-indigo-500/10">{{ lang }}</span>
               </li>
             </ul>
           </Combobox>
 
+          <div class="mb-5">
+            <label for="features" class="block text-sm/6 font-medium text-gray-900">Features that describe your project</label>
+            <div class="mt-2 mb-1">
+              <input
+                v-model="featureQuery"
+                type="text"
+                name="features"
+                id="features"
+                class="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                placeholder="Type and press Enter"
+                @keyup.enter="addFeature()"
+              />
+            </div>
+            <ul class="flex gap-1">
+              <li v-for="feat in featureList" :key="feat" class="text-sm/6 text-gray-600 cursor-pointer">
+                <span @click="featureList = featureList.filter(l => l !== feat)" class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-600 ring-1 ring-inset ring-indigo-500/10">{{ feat }}</span>
+              </li>
+            </ul>
+          </div>
+
           <div class="col-span-full mb-4 w-full">
-            <div class="flex">
+            <div class="flex justify-between items-center">
               <div>
                 <label for="about" class="block text-sm/6 font-medium text-gray-900">README.md</label>
                 <p class="mt-1 text-sm/6 text-gray-600">Complete the readme of your project</p>
@@ -228,41 +281,41 @@ onMounted(async () => {
             </div>
           </div>
 
-          <div class="col-span-full">
-            <label
-              for="cover-photo"
-              class="block text-sm/6 font-medium text-gray-900"
-              >Banner</label
-            >
-            <div
-              class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
-            >
-              <div class="text-center">
-                <PhotoIcon
-                  class="mx-auto h-12 w-12 text-gray-300"
-                  aria-hidden="true"
-                />
-                <div class="mt-4 flex text-sm/6 text-gray-600">
-                  <label
-                    for="file-upload"
-                    class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                  >
-                    <span>Upload a file</span>
-                    <input
-                      id="file-upload"
-                      name="file-upload"
-                      type="file"
-                      class="sr-only"
-                      @change="onImageChange"
-                      accept="image/*"
-                    />
-                  </label>
-                  <p class="pl-1">or drag and drop</p>
-                </div>
-                <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-              </div>
-            </div>
-          </div>
+<!--          <div class="col-span-full">-->
+<!--            <label-->
+<!--              for="cover-photo"-->
+<!--              class="block text-sm/6 font-medium text-gray-900"-->
+<!--              >Banner</label-->
+<!--            >-->
+<!--            <div-->
+<!--              class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"-->
+<!--            >-->
+<!--              <div class="text-center">-->
+<!--                <PhotoIcon-->
+<!--                  class="mx-auto h-12 w-12 text-gray-300"-->
+<!--                  aria-hidden="true"-->
+<!--                />-->
+<!--                <div class="mt-4 flex text-sm/6 text-gray-600">-->
+<!--                  <label-->
+<!--                    for="file-upload"-->
+<!--                    class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"-->
+<!--                  >-->
+<!--                    <span>Upload a file</span>-->
+<!--                    <input-->
+<!--                      id="file-upload"-->
+<!--                      name="file-upload"-->
+<!--                      type="file"-->
+<!--                      class="sr-only"-->
+<!--                      @change="onImageChange"-->
+<!--                      accept="image/*"-->
+<!--                    />-->
+<!--                  </label>-->
+<!--                  <p class="pl-1">or drag and drop</p>-->
+<!--                </div>-->
+<!--                <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
         <div
           class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8"
@@ -275,13 +328,13 @@ onMounted(async () => {
             Cancel
           </button>
           <button
-            type="submit"
+            @click="onFormSubmit()"
             class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Save
           </button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>

@@ -11,9 +11,6 @@ if (route.query.code === undefined) {
    router.push('/');
 }
 await authStore.login(route.query.code as string)
-//   .then(() => {
-// //     router.push('/');
-// // });
 </script>
 
 <template>

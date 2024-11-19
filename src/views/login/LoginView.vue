@@ -2,15 +2,18 @@
 import { useAuthStore } from '@/stores/auth.store'
 import router from '@/router'
 
+const WEB_URL = import.meta.env.VITE_URL || 'https://super-sympa.fr/'
+const GITHUB_OAUTH_CLIENT_ID = import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID || 'Iv23liRAlnT23lQE2Avs'
+
 const authStore = useAuthStore()
 if (authStore.user) {
   router.push('/profile')
 }
 
 async function login() {
-  const clientId = 'Iv23liRAlnT23lQE2Avs'
+  const clientId = GITHUB_OAUTH_CLIENT_ID;
   const redirectUri = encodeURIComponent(
-    'https://super-sympa.fr/github/callback',
+    WEB_URL + 'github/callback',
   )
   const scope = 'public_profile'
   window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`
