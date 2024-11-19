@@ -22,7 +22,7 @@ const md = markdownit({
         return hljs.highlight(str, { language: lang }).value
       } catch (__) {}
     }
-    return '' // use external default escaping
+    return ''
   },
   html: true,
   linkify: true,
@@ -41,24 +41,6 @@ onMounted(async () => {
     authStore.viewBoilerplate(boilerplate.value?.id)
   }
 })
-
-// download a zip folder
-// :href="`${boilerplate?.gitUrl}/archive/refs/heads/${boilerplate?.defaultBranch}.zip`"
-// @click.prevent="downloadItem(`${boilerplate?.gitUrl}/archive/refs/heads/${boilerplate?.defaultBranch}.zip`)"
-// const downloadItem = (url: string) => {
-//   console.log("test")
-//   fetch("https://cors-anywhere.herokuapp.com/" + url)
-//     .then((response) => response.blob())
-//     .then((blob) => {
-//       const url = window.URL.createObjectURL(blob)
-//       const a = document.createElement('a')
-//       a.href = url
-//       a.download = `${boilerplate.value?.name}.zip`
-//       document.body.appendChild(a)
-//       a.click()
-//       window.URL.revokeObjectURL(url)
-//     })
-// }
 </script>
 
 <template>
@@ -100,11 +82,6 @@ onMounted(async () => {
         <div
           class="-mx-4 px-4 py-8 shadow-sm ring-1 ring-gray-900/5 sm:mx-0 sm:rounded-lg sm:px-8 sm:pb-14 lg:col-span-2 lg:row-span-2 lg:row-end-2 xl:px-16 xl:pb-20 xl:pt-16"
         >
-          <!--          <img-->
-          <!--            :src="boilerplate?.logo"-->
-          <!--            alt=""-->
-          <!--            class="w-full h-52 mb-8 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"-->
-          <!--          />-->
           <div>
             <article
               v-html="md.render(boilerplate?.description || '')"
