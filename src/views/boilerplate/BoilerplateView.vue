@@ -37,6 +37,9 @@ onMounted(async () => {
     null,
     false,
   )
+  if (user.value && boilerplate.value) {
+    authStore.viewBoilerplate(boilerplate.value?.id)
+  }
 })
 
 // download a zip folder

@@ -55,12 +55,13 @@ defineProps<{
         </div>
         <div class="mt-4 flex w-full flex-none gap-x-4 px-6">
           <dt class="text-sm leading-6 text-gray-800">
-            <button
+            <a
+              :href="`${boilerplate?.gitUrl}/archive/refs/heads/${boilerplate?.defaultBranch}.zip`"
               class="flex gap-1.5 items-center-center rounded-md bg-indigo-100 px-3 py-2 text-sm font-semibold shadow-sm hover:bg-indigo-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Download zip
               <ArrowDownOnSquareIcon class="h-5 w-5" aria-hidden="true" />
-            </button>
+            </a>
           </dt>
         </div>
       </dl>

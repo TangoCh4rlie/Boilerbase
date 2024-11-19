@@ -12,7 +12,7 @@ export interface Boilerplate {
   logo?: string
   likesCounter: number
   usesCounter: number
-  authorId: number | null
+  authorId: string
   author?: User
   likes?: Like[]
   createdAt: Date

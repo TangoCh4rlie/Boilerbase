@@ -38,7 +38,15 @@ const router = createRouter({
     },
     {
       path: '/new',
-      component: () => import('@/views/boilerplate/NewBoilerplateView.vue')
+      component: () => import('@/views/boilerplate/NewBoilerplateView.vue'),
+      beforeEnter: (to, from, next) => {
+        const { user } = useAuthStore()
+        if (user) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
     },
     {
       path: '/:pathMatch(.*)*',

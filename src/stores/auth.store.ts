@@ -53,6 +53,9 @@ export const useAuthStore = defineStore({
     },
     setReturnUrl(url: string) {
       this.returnUrl = url
-    }
+    },
+    viewBoilerplate(id: number) {
+      fetchWrapper.put(`view/${id}`, null, true)
+    },
   },
 })
