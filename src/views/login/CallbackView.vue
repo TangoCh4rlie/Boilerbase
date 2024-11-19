@@ -10,6 +10,7 @@ const authStore = useAuthStore();
 if (route.query.code === undefined) {
    router.push('/');
 }
+console.log(authStore.returnUrl)
 await authStore.login(route.query.code as string)
 </script>
 

@@ -15,7 +15,7 @@ const { user } = storeToRefs(authStore)
 onMounted(async () => {
   await boilerplateStore.getTopBoilerplate()
   if (user.value !== null) {
-    boilerplateStore.getBoilerplateHistory()
+    await boilerplateStore.getBoilerplateHistory()
   }
 })
 </script>

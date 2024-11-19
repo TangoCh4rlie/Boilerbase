@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import { ChevronRightIcon, CpuChipIcon, LifebuoyIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
+import {
+  ChevronRightIcon,
+  CpuChipIcon,
+  LifebuoyIcon,
+  ArrowPathIcon,
+  ArchiveBoxXMarkIcon,
+} from '@heroicons/vue/24/outline'
 import {
   Combobox,
   ComboboxInput,
@@ -19,8 +25,7 @@ import type { Boilerplate } from '@/models/boilerplate.model'
 import { useAuthStore } from '@/stores/auth.store'
 
 const boilerplateStore = useBoilerplateStore()
-const { searchedBoilerplates, boilerplateHistory } =
-  storeToRefs(boilerplateStore)
+const { searchedBoilerplates, boilerplateHistory } = storeToRefs(boilerplateStore)
 
 const searchStore = useSearchStore()
 const { name, languages, features, displaySearchBar } = storeToRefs(searchStore)
@@ -48,7 +53,7 @@ onBeforeUnmount(() => {
 })
 
 const rawQuery = ref('')
-const isSearching = ref(false);
+const isSearching = ref(false)
 let nameTimeout: ReturnType<typeof setTimeout> | null = null
 
 const filteredBoilerplates = computed(() =>
@@ -68,9 +73,17 @@ const filteredBoilerplates = computed(() =>
     }),
 )
 
-function selectBoilerplate(boilerplate: Boilerplate) {
+const selectBoilerplate = async (boilerplate: Boilerplate) => {
   if (boilerplate) {
     window.location.href = '/boilerplate/' + boilerplate.name
+  }
+}
+
+const pressEnterKey = () => {
+  if (rawQuery.value === '' && boilerplateHistory.value.length > 0) {
+    selectBoilerplate(boilerplateHistory.value[0])
+  } else if (filteredBoilerplates.value.length > 0) {
+    selectBoilerplate(filteredBoilerplates.value[0])
   }
 }
 
@@ -108,11 +121,7 @@ async function search() {
 </script>
 
 <template>
-  <TransitionRoot
-    :show="displaySearchBar"
-    as="template"
-    appear
-  >
+  <TransitionRoot :show="displaySearchBar" as="template" appear>
     <Dialog class="relative z-10" @close="displaySearchBar = false">
       <TransitionChild
         as="template"
@@ -153,6 +162,7 @@ async function search() {
                   class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                   placeholder="Search..."
                   @change="rawQuery = $event.target.value"
+                  @keyup.enter="pressEnterKey()"
                 />
               </div>
 
@@ -167,18 +177,13 @@ async function search() {
                 hold
               >
                 <div
+                  v-if="rawQuery !== '' || boilerplateHistory?.length > 0"
                   :class="[
                     'max-h-96 min-w-0 flex-auto scroll-py-4 overflow-y-auto px-6 py-4',
                     activeOption && 'sm:h-96',
                   ]"
                 >
-                  <h2
-                    v-if="rawQuery === ''"
-                    class="mb-4 mt-2 text-xs font-semibold text-gray-500"
-                  >
-                    Recent searches
-                  </h2>
-                  <div hold class="-mx-2 text-sm text-gray-700">
+                  <div class="-mx-2 text-sm text-gray-700">
                     <ComboboxOption
                       v-for="boilerplate in rawQuery === ''
                         ? boilerplateHistory
@@ -272,16 +277,53 @@ async function search() {
                 </div>
               </ComboboxOptions>
 
-              <div v-if="rawQuery === '?'" class="px-6 py-14 text-center text-sm sm:px-14">
-                <LifebuoyIcon class="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
-                <p class="mt-4 font-semibold text-gray-900">Help with searching</p>
-<!--                TODO: faire des exemple de commandes custom-->
-                <p class="mt-2 text-gray-500">Use this tool to quickly search for users and projects across our entire platform. You can also use the search modifiers found in the footer below to limit the results to just users or projects.</p>
+              <div
+                v-if="rawQuery === '?'"
+                class="px-6 py-14 text-center text-sm sm:px-14"
+              >
+                <LifebuoyIcon
+                  class="mx-auto h-6 w-6 text-gray-400"
+                  aria-hidden="true"
+                />
+                <p class="mt-4 font-semibold text-gray-900">
+                  Help with searching
+                </p>
+                <!--                TODO: faire des exemple de commandes custom-->
+                <p class="mt-2 text-gray-500">
+                  Use this tool to quickly search for users and projects across
+                  our entire platform. You can also use the search modifiers
+                  found in the footer below to limit the results to just users
+                  or projects.
+                </p>
               </div>
 
-              <div v-if="isSearching === true" class="px-6 py-14 text-center text-sm sm:px-14">
-                <ArrowPathIcon class="mx-auto animate-spin h-6 w-6 text-gray-400" aria-hidden="true" />
-                <p class="mt-4 font-semibold text-gray-900">Searching boilerplates for you...</p>
+              <div
+                v-if="isSearching === true"
+                class="px-6 py-14 text-center text-sm sm:px-14"
+              >
+                <ArrowPathIcon
+                  class="mx-auto animate-spin h-6 w-6 text-gray-400"
+                  aria-hidden="true"
+                />
+                <p class="mt-4 font-semibold text-gray-900">
+                  Searching boilerplates for you...
+                </p>
+              </div>
+
+              <div
+                v-if="
+                  boilerplateStore.boilerplateHistory?.length === 0
+                "
+                class="px-6 py-14 text-center text-sm sm:px-14"
+              >
+                <ArchiveBoxXMarkIcon
+                  class="mx-auto h-6 w-6 text-gray-400"
+                  aria-hidden="true"
+                />
+                <p class="mt-4 font-semibold text-gray-900">
+                  You don't have a history yet
+                </p>
+                <p class="mt-2 text-gray-500">Try to search something</p>
               </div>
 
               <div
