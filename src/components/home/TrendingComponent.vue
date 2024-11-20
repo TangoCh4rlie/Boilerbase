@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 
 import { useBoilerplateStore } from '@/stores/boilerplate.store'
 import { onMounted } from 'vue'
-import BoilerPreviewComponent from '@/components/BoilerPreviewComponent.vue'
+import BoilerPreviewComponent from '@/components/boilerplate/BoilerPreviewComponent.vue'
 import { useAuthStore } from '@/stores/auth.store'
 
 const boilerplateStore = useBoilerplateStore()

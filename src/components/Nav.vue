@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { PlusIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { PlusIcon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/vue/24/outline'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth.store'
 
@@ -10,6 +10,11 @@ const { user } = useAuthStore()
 const navigation = [
   { name: 'Boilerplates', href: '/boilerplates' },
 ]
+
+import { useDark, useToggle } from '@vueuse/core';
+
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
 
 const mobileMenuOpen = ref(false)
 
@@ -62,6 +67,16 @@ const mobileMenuOpen = ref(false)
           <PlusIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
           Publish
         </button>
+        <div
+          @click="toggleDark()"
+        >
+          <MoonIcon
+            v-if="isDark"
+            class="h-6 w-6 cursor-pointer" />
+          <SunIcon
+            v-else
+            class="h-6 w-6 cursor-pointer" />
+        </div>
         <span
           v-if="user !== null"
           class="relative inline-block"
