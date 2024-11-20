@@ -21,8 +21,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="trending" class="mx-5">
-    <div class="mx-auto max-w-2xl lg:text-center mb-10">
+  <div class="mx-5">
+    <div class="mx-auto max-w-2xl text-center mb-10">
       <h3 class="text-xl font-semibold leading-7 text-indigo-400">Explore</h3>
       <p class="text-pretty text-3xl font-semibold">
         Best Boilerplates of the month
