@@ -5,4 +5,5 @@ export interface GitRepos {
   description: string;
   distinctLanguages: string[];
   default_branch: string;
+  featureList: string[];
 }
