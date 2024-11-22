@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <RouterLink :to="`/boilerplate/${boilerplate.name}`">
     <div
-      class="flex flex-col justify-center-center gap-y-4 border-b border-gray-900/5 bg-gray-50 p-6 cursor-pointer"
+      class="flex flex-col justify-center-center gap-y-4 border-b border-gray-900/5 bg-gray-50 p-6 cursor-pointer dark:bg-[#141723]"
     >
       <img
         :src="boilerplate.logo"

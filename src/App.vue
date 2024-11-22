@@ -7,7 +7,7 @@ import router from '@/router'
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen dark:bg-[#121212]">
+  <div class="flex flex-col min-h-screen dark:bg-[#141723]">
     <Nav v-if="!/^\/github\/callback/.test(router.currentRoute.value.path)" />
     <RouterView />
     <SearchBar />
