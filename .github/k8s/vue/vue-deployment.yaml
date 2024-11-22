@@ -6,7 +6,7 @@ metadata:
   labels:
     app: boilerbase-webapp
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: boilerbase-webapp
@@ -18,11 +18,8 @@ spec:
       containers:
         - name: boilerbase-webapp
           image: tang0ch4rlie/boilerbasewebapp
-#          ports:
-#            - containerPort: 8080
-          envFrom:
-            - configMapRef:
-                name: webapp-secret
+          ports:
+            - containerPort: 80
           imagePullPolicy: Always
           resources:
             requests:
