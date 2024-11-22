@@ -54,7 +54,7 @@ onMounted(async () => {
           class="mx-auto flex max-w-2xl items-center justify-between gap-x-8 lg:mx-0 lg:max-w-none"
         >
           <div class="flex items-center gap-x-6">
-            <h3 class="my-6 text-4xl font-bold leading-6 text-gray-900">
+            <h3 class="my-6 text-4xl font-bold leading-6 text-gray-900 dark:text-gray-200">
               {{ boilerplate?.name }}
             </h3>
           </div>
@@ -62,7 +62,7 @@ onMounted(async () => {
             <a
               v-if="boilerplate?.authorId === user?.id"
               href="#"
-              class="hidden text-sm font-semibold leading-6 text-gray-900 sm:block"
+              class="hidden text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200 sm:block"
               >Edit</a
             >
             <a

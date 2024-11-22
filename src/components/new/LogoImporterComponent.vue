@@ -32,7 +32,7 @@ const uploadImage = async (file: File): Promise<void> => {
   <div class="col-span-full">
     <label
       for="cover-photo"
-      class="block text-sm/6 font-medium text-gray-900"
+      class="block text-sm/6 font-medium text-gray-900 dark:text-gray-200"
     >Banner</label
     >
     <div
@@ -43,7 +43,7 @@ const uploadImage = async (file: File): Promise<void> => {
           class="mx-auto h-12 w-12 text-gray-300"
           aria-hidden="true"
         />
-        <div class="mt-4 flex text-sm/6 text-gray-600">
+        <div class="mt-4 flex text-sm/6 text-gray-600 dark:text-gray-400">
           <label
             for="file-upload"
             class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
@@ -60,7 +60,7 @@ const uploadImage = async (file: File): Promise<void> => {
           </label>
           <p class="pl-1">or drag and drop</p>
         </div>
-        <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+        <p class="text-xs/5 text-gray-600 dark:text-gray-400">PNG, JPG, GIF up to 10MB</p>
       </div>
     </div>
   </div>

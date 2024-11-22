@@ -51,11 +51,11 @@ const onFormSubmit = async () => {
 </script>
 
 <template>
-  <div class="space-y-10 mx-20 divide-y divide-gray-900/10">
+  <div class="space-y-10 mx-20 divide-y divide-gray-900/10 dark:divide-slate-500">
     <div class="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-3">
       <HeaderNewComponent />
       <div
-        class="bg-white rounded-xl shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
+        class="bg-white rounded-xl shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2 dark:border dark:border-slate-500 dark:bg-slate-900"
       >
         <div class="px-4 py-6 sm:p-8">
           <ComboBoxGithubRepoComponent v-model="repo" />
@@ -64,12 +64,12 @@ const onFormSubmit = async () => {
           <EditableMarkdown v-model="repo.description" />
         </div>
         <div
-          class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8"
+          class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 dark:border-slate-500 px-4 py-4 sm:px-8"
         >
           <RouterLink to="/">
             <button
               type="button"
-              class="text-sm/6 font-semibold text-gray-900"
+              class="text-sm/6 font-semibold text-gray-900 dark:text-gray-200"
             >
               Cancel
             </button>

@@ -23,8 +23,8 @@ onMounted(async () => {
 <template>
   <div class="mx-5">
     <div class="mx-auto max-w-2xl text-center mb-10">
-      <h3 class="text-xl font-semibold leading-7 text-indigo-400">Explore</h3>
-      <p class="text-pretty text-3xl font-semibold">
+      <h3 class="text-xl font-semibold leading-7 text-indigo-600">Explore</h3>
+      <p class="text-pretty text-3xl font-semibold text-gray-900 dark:text-gray-200">
         Best Boilerplates of the month
       </p>
     </div>
@@ -35,7 +35,7 @@ onMounted(async () => {
       <li
         v-for="boilerplate in topBoilerplates"
         :key="boilerplate.id"
-        class="overflow-hidden rounded-xl border border-gray-200"
+        class="overflow-hidden rounded-xl border border-gray-200 dark:border-slate-500"
       >
         <BoilerPreviewComponent :boilerplate="boilerplate" />
       </li>

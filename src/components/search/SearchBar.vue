@@ -171,7 +171,7 @@ async function search() {
                   aria-hidden="true"
                 />
                 <ComboboxInput
-                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 dark:text-gray-200 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                   placeholder="Search..."
                   @change="rawQuery = $event.target.value"
                   @keyup.enter="pressEnterKey()"
@@ -209,7 +209,7 @@ async function search() {
                       <div
                         :class="[
                           'group flex cursor-default select-none items-center rounded-md p-2',
-                          active && 'bg-gray-100 text-gray-900',
+                          active && 'bg-gray-100 text-gray-900 dark:text-gray-200',
                         ]"
                       >
                         <img

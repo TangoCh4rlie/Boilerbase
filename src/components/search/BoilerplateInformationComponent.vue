@@ -20,7 +20,7 @@ defineProps<{
         alt=""
         class="mx-auto h-16 w-16 rounded-full"
       />
-      <h2 class="mt-3 text-lg font-semibold text-gray-900">
+      <h2 class="mt-3 text-lg font-semibold text-gray-900 dark:text-gray-200">
         {{ activeOption.name }}
       </h2>
       <p class="text-sm/6 text-gray-500">
@@ -31,18 +31,18 @@ defineProps<{
       <dl
         class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-700"
       >
-        <dt class="col-end-1 font-semibold text-gray-900">
+        <dt class="col-end-1 font-semibold text-gray-900 dark:text-gray-200">
           Languages
         </dt>
         <dd>
                         <span
                           v-for="(language, index) in activeOption.languages"
                           :key="index"
-                          class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 mr-0.5 mb-0.5"
+                          class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10 mr-0.5 mb-0.5"
                         >{{ language }}</span
                         >
         </dd>
-        <dt class="col-end-1 font-semibold text-gray-900">
+        <dt class="col-end-1 font-semibold text-gray-900 dark:text-gray-200">
           Features
         </dt>
         <dd>
@@ -53,7 +53,7 @@ defineProps<{
                         >{{ feature }}</span
                         >
         </dd>
-        <dt class="col-end-1 font-semibold text-gray-900">
+        <dt class="col-end-1 font-semibold text-gray-900 dark:text-gray-200">
           GitHub
         </dt>
         <dd class="truncate">

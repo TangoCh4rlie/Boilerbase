@@ -33,7 +33,7 @@ const mobileMenuOpen = ref(false)
             src="https://avatars.githubusercontent.com/u/50408224?v=4"
             alt="Logo"
           />
-          <h1 class="text-balance text-4xl font-semibold tracking-tight text-gray-900">Boilerbase</h1>
+          <h1 class="text-balance text-4xl font-semibold tracking-tight text-gray-900 dark:text-gray-200">Boilerbase</h1>
         </a>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
@@ -46,7 +46,7 @@ const mobileMenuOpen = ref(false)
 <!--              name="search"-->
 <!--              id="search"-->
 <!--              placeholder="Search..."-->
-<!--              class="block w-full rounded-md border-0 py-1.5 pl-2 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:border-slate-400 hover:border-slate-300 focus:shadow sm:text-sm sm:leading-6"-->
+<!--              class="block w-full rounded-md border-0 py-1.5 pl-2 pr-14 text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:border-slate-400 hover:border-slate-300 focus:shadow sm:text-sm sm:leading-6"-->
 <!--            />-->
 <!--            <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">-->
 <!--              <kbd-->
@@ -72,7 +72,7 @@ const mobileMenuOpen = ref(false)
         >
           <MoonIcon
             v-if="isDark"
-            class="h-6 w-6 cursor-pointer" />
+            class="h-6 w-6 cursor-pointer dark:text-gray-200" />
           <SunIcon
             v-else
             class="h-6 w-6 cursor-pointer" />
@@ -95,7 +95,7 @@ const mobileMenuOpen = ref(false)
         <a
           v-else
           href="/login"
-          class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+          class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 dark:text-gray-200 hover:bg-gray-50"
           >Log in</a
         >
       </div>
@@ -149,14 +149,14 @@ const mobileMenuOpen = ref(false)
                 v-for="item in navigation"
                 :key="item.name"
                 :href="item.href"
-                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 dark:text-gray-200 hover:bg-gray-50"
                 >{{ item.name }}</a
               >
             </div>
             <div class="py-6">
               <a
                 href="#"
-                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 dark:text-gray-200 hover:bg-gray-50"
                 >Log in</a
               >
             </div>

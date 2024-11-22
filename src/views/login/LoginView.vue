@@ -31,7 +31,7 @@ async function login() {
         alt="Logo"
       />
       <h2
-        class="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900"
+        class="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-gray-200"
       >
         Sign in to your account
       </h2>
@@ -47,7 +47,7 @@ async function login() {
             </h4>
             <button
               @click="login()"
-              class="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
+              class="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
             >
               <svg
                 class="h-5 w-5 fill-[#24292F]"

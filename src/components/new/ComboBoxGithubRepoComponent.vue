@@ -32,6 +32,7 @@ onMounted(async () => {
     null,
     true,
   )
+  repo.value.featureList = []
 })
 
 const filtredGithubRepos = computed(() => {
@@ -53,12 +54,12 @@ const filtredGithubRepos = computed(() => {
     v-model="repo"
     @update:modelValue="queryNameProject = repo.name"
   >
-    <ComboboxLabel class="block text-sm/6 font-medium text-gray-900"
+    <ComboboxLabel class="block text-sm/6 font-medium text-gray-900 dark:text-gray-200"
       >Select your github repository</ComboboxLabel
     >
     <div class="relative mt-2">
       <ComboboxInput
-        class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+        class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
         @change="queryNameProject = $event.target.value"
         :display-value="item => (item as GitRepos).name"
       />
@@ -71,7 +72,7 @@ const filtredGithubRepos = computed(() => {
       <!--              FIXME: ishover does not working-->
       <ComboboxOptions
         v-if="filtredGithubRepos.length > 0"
-        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200"
       >
         <ComboboxOption
           v-for="repo in filtredGithubRepos"
@@ -85,7 +86,7 @@ const filtredGithubRepos = computed(() => {
               'relative cursor-default select-none py-2 pl-3 pr-9',
               active
                 ? 'bg-indigo-600  text-white outline-none'
-                : 'text-gray-900',
+                : 'text-gray-900 dark:text-gray-200',
             ]"
           >
             <span :class="['block truncate', selected && 'font-semibold']">

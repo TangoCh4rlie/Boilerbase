@@ -14,7 +14,7 @@ defineProps<{
         'mx-1 flex h-5 w-5 items-center justify-center rounded border bg-white font-semibold sm:mx-2',
         rawQuery.includes('#')
           ? 'border-indigo-600 text-indigo-600'
-          : 'border-gray-400 text-gray-900',
+          : 'border-gray-400 text-gray-900 dark:text-gray-200',
       ]"
       >#</kbd
     >
@@ -24,7 +24,7 @@ defineProps<{
         'mx-1 flex h-5 w-5 items-center justify-center rounded border bg-white font-semibold sm:mx-2',
         rawQuery.includes('>')
           ? 'border-indigo-600 text-indigo-600'
-          : 'border-gray-400 text-gray-900',
+          : 'border-gray-400 text-gray-900 dark:text-gray-200',
       ]"
       >&gt;</kbd
     >
@@ -34,7 +34,7 @@ defineProps<{
         'mx-1 flex h-5 w-5 items-center justify-center rounded border bg-white font-semibold sm:mx-2',
         rawQuery === '?'
           ? 'border-indigo-600 text-indigo-600'
-          : 'border-gray-400 text-gray-900',
+          : 'border-gray-400 text-gray-900 dark:text-gray-200',
       ]"
       >?</kbd
     >
