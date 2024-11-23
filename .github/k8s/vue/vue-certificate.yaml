@@ -7,7 +7,6 @@ spec:
   secretName: boilerbase-webapp-cert-secret-tls
   dnsNames:
     - 'super-sympa.fr'
-    - 'www.super-sympa.fr'
   issuerRef:
-    kind: Issuer
+    kind: ClusterIssuer
     name: boilerbase-webapp-selfsigned-issuer
