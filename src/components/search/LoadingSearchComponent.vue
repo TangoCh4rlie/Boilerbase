@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <div
     v-if="isSearching"
-    class="px-6 py-14 text-center text-sm sm:px-14"
+    class="px-6 py-14 text-center text-sm sm:px-14 dark:bg-slate-900"
   >
     <ArrowPathIcon
       class="mx-auto animate-spin h-6 w-6 text-gray-400"

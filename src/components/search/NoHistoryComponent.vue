@@ -6,7 +6,7 @@ import {
 
 <template>
   <div
-    class="px-6 py-14 text-center text-sm sm:px-14"
+    class="px-6 py-14 text-center text-sm sm:px-14 dark:bg-slate-900"
   >
     <ArchiveBoxXMarkIcon
       class="mx-auto h-6 w-6 text-gray-400"

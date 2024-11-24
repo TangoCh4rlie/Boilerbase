@@ -59,7 +59,7 @@ const filtredGithubRepos = computed(() => {
     >
     <div class="relative mt-2">
       <ComboboxInput
-        class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+        class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 dark:bg-gray-800 dark:ring-gray-500 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
         @change="queryNameProject = $event.target.value"
         :display-value="item => (item as GitRepos).name"
       />

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import LanguagesAndFeaturesComponent from '@/components/ui/LanguagesAndFeaturesComponent.vue'
+
 defineProps<{
   activeOption: {
     name: string
@@ -12,7 +14,7 @@ defineProps<{
 
 <template>
   <div
-    class="hidden h-96 w-1/2 flex-none flex-col divide-y divide-gray-100 overflow-y-auto sm:flex"
+    class="hidden h-96 w-1/2 flex-none flex-col divide-y divide-gray-100 dark:divide-slate-800 overflow-y-auto sm:flex"
   >
     <div class="flex-none p-6 text-center">
       <img
@@ -31,28 +33,7 @@ defineProps<{
       <dl
         class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-700"
       >
-        <dt class="col-end-1 font-semibold text-gray-900 dark:text-gray-200">
-          Languages
-        </dt>
-        <dd>
-                        <span
-                          v-for="(language, index) in activeOption.languages"
-                          :key="index"
-                          class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10 mr-0.5 mb-0.5"
-                        >{{ language }}</span
-                        >
-        </dd>
-        <dt class="col-end-1 font-semibold text-gray-900 dark:text-gray-200">
-          Features
-        </dt>
-        <dd>
-                        <span
-                          v-for="(feature, index) in activeOption.features"
-                          :key="index"
-                          class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 mr-0.5 mb-0.5"
-                        >{{ feature }}</span
-                        >
-        </dd>
+        <LanguagesAndFeaturesComponent :languages="activeOption.languages" :features="activeOption.features" />
         <dt class="col-end-1 font-semibold text-gray-900 dark:text-gray-200">
           GitHub
         </dt>

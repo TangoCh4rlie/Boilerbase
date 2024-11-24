@@ -52,7 +52,7 @@ const filtredLanguages = computed(() => {
   <Combobox class="col-span-full mb-3"  as="div" v-model="selectedLanguage" @update:modelValue="queryLanguage = ''">
     <ComboboxLabel class="block text-sm/6 font-medium text-gray-900 dark:text-gray-200">Languages of the boilerplate</ComboboxLabel>
     <div class="relative mt-2 mb-1">
-      <ComboboxInput class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 dark:bg-gray-800 dark:border-gray-500 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" @change="queryLanguage = $event.target.value" @blur="queryLanguage = ''"/>
+      <ComboboxInput class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 dark:bg-gray-800 dark:ring-gray-500 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" @change="queryLanguage = $event.target.value" @blur="queryLanguage = ''"/>
       <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
         <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
       </ComboboxButton>

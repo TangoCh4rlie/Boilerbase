@@ -29,6 +29,8 @@ const md = markdownit({
   typographer: true,
 })
 
+const editMode = ref(false)
+
 const boilerplate = ref<Boilerplate | null>(null as Boilerplate | null)
 
 onMounted(async () => {
@@ -59,12 +61,11 @@ onMounted(async () => {
             </h3>
           </div>
           <div class="flex items-center gap-x-4 sm:gap-x-6">
-            <a
+            <button
               v-if="boilerplate?.authorId === user?.id"
-              href="#"
+              @click="editMode = !editMode"
               class="hidden text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200 sm:block"
-              >Edit</a
-            >
+              >Edit</button>
             <a
               href="#"
               class="flex gap-1.5 items-center-center rounded-md bg-indigo-600  px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -80,13 +81,19 @@ onMounted(async () => {
       >
         <SummayComponent :boilerplate="boilerplate" />
         <div
-          class="-mx-4 px-4 py-8 shadow-sm ring-1 ring-gray-900/5 sm:mx-0 sm:rounded-lg sm:px-8 sm:pb-14 lg:col-span-2 lg:row-span-2 lg:row-end-2 xl:px-16 xl:pb-20 xl:pt-16"
+          class="-mx-4 px-4 py-8 shadow-sm ring-1 ring-gray-900/5 dark:bg-gray-800 dark:border dark:border-gray-500 sm:mx-0 sm:rounded-lg sm:px-8 sm:pb-14 lg:col-span-2 lg:row-span-2 lg:row-end-2 xl:px-16 xl:pb-20 xl:pt-16"
         >
           <div>
             <article
-              v-html="md.render(boilerplate?.description || '')"
+              v-if="!editMode"
               class="markdown"
+              v-html="md.render(boilerplate.description || '')"
             ></article>
+            <textarea
+              v-else
+              v-model="boilerplate.description"
+              class="w-full h-96 resize-none border rounded-lg bg-transparent dark:border-gray-500 text-gray-900 dark:text-gray-200 placeholder:text-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
+            ></textarea>
           </div>
         </div>
       </div>

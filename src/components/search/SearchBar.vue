@@ -89,11 +89,11 @@ const selectBoilerplate = async (boilerplate: Boilerplate) => {
   }
 }
 
-const pressEnterKey = () => {
+const pressEnterKey = (boilerplate: Boilerplate) => {
   if (rawQuery.value === '' && boilerplateHistory.value.length > 0) {
-    selectBoilerplate(boilerplateHistory.value[0])
+    selectBoilerplate(boilerplateHistory.value[boilerplate.id])
   } else if (filteredBoilerplates.value.length > 0) {
-    selectBoilerplate(filteredBoilerplates.value[0])
+    selectBoilerplate(filteredBoilerplates.value[boilerplate.id])
   }
 }
 
@@ -162,7 +162,7 @@ async function search() {
           leave-to="opacity-0 scale-95"
         >
           <DialogPanel
-            class="mx-auto max-w-3xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
+            class="mx-auto max-w-3xl transform divide-y divide-gray-100 dark:divide-slate-700 dark:ring-gray-500 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
           >
             <Combobox v-slot="{ activeOption }">
               <div class="relative">
@@ -171,10 +171,9 @@ async function search() {
                   aria-hidden="true"
                 />
                 <ComboboxInput
-                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 dark:text-gray-200 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 dark:text-gray-200 dark:bg-gray-900 placeholder:text-gray-400 dark:placeholder-gray-300 focus:ring-0 sm:text-sm outline-none"
                   placeholder="Search..."
                   @change="rawQuery = $event.target.value"
-                  @keyup.enter="pressEnterKey()"
                 />
               </div>
 
@@ -183,7 +182,7 @@ async function search() {
                   rawQuery === '' ||
                   (filteredBoilerplates && filteredBoilerplates.length > 0)
                 "
-                class="flex transform-gpu divide-x divide-gray-100"
+                class="flex transform-gpu divide-x divide-gray-100 dark:divide-slate-800 dark:text-gray-200 dark:bg-gray-900"
                 as="div"
                 static
                 hold
@@ -195,7 +194,7 @@ async function search() {
                     activeOption && 'sm:h-96',
                   ]"
                 >
-                  <div class="-mx-2 text-sm text-gray-700">
+                  <div class="-mx-2 text-sm text-gray-700 dark:text-gray-500">
                     <ComboboxOption
                       v-for="boilerplate in rawQuery === ''
                         ? boilerplateHistory
@@ -209,7 +208,7 @@ async function search() {
                       <div
                         :class="[
                           'group flex cursor-default select-none items-center rounded-md p-2',
-                          active && 'bg-gray-100 text-gray-900 dark:text-gray-200',
+                          active && 'bg-gray-100 text-gray-900 dark:text-gray-200 dark:bg-gray-800',
                         ]"
                       >
                         <img

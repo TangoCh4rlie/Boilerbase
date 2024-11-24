@@ -38,19 +38,19 @@ async function login() {
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
-      <div class="bg-white px-6 pt-6 p-10 shadow sm:rounded-lg sm:px-12">
+      <div class="bg-white px-6 pt-6 p-10 shadow sm:rounded-lg sm:px-12 dark:bg-slate-900 dark:border dark:border-gray-500">
         <div>
           <div class="gap-4">
-            <h4 class="mb-5 text-center text-sm/6 text-gray-500">
+            <h4 class="mb-5 text-center text-sm/6 text-gray-500 dark:text-gray-300">
               Sign in with
               <span class="text-indigo-600">GitHub</span>
             </h4>
             <button
               @click="login()"
-              class="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
+              class="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 dark:bg-slate-800 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-500 hover:bg-gray-50 focus-visible:ring-transparent"
             >
               <svg
-                class="h-5 w-5 fill-[#24292F]"
+                class="h-5 w-5 fill-[#24292F] dark:fill-gray-100"
                 aria-hidden="true"
                 fill="currentColor"
                 viewBox="0 0 20 20"
