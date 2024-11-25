@@ -21,7 +21,7 @@ const mobileMenuOpen = ref(false)
 </script>
 
 <template>
-  <header class="bg-white dark:bg-[#141723]">
+  <header class="bg-transparent">
     <nav
       class="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8"
       aria-label="Global"

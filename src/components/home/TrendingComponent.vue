@@ -21,7 +21,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="mx-5">
+  <div class="mx-5 bg-transparent mt-16">
     <div class="mx-auto max-w-2xl text-center mb-10">
       <h3 class="text-xl font-semibold leading-7 text-indigo-600">Explore</h3>
       <p class="text-pretty text-3xl font-semibold text-gray-900 dark:text-gray-200">
