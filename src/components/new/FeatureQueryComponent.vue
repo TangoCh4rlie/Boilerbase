@@ -19,7 +19,6 @@ const addFeature = (): void => {
       featureList.value.push(featureQuery.value.toLowerCase())
     }
     featureQuery.value = ''
-    console.log(featureList.value)
   }
 }
 </script>

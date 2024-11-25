@@ -89,13 +89,13 @@ const selectBoilerplate = async (boilerplate: Boilerplate) => {
   }
 }
 
-const pressEnterKey = (boilerplate: Boilerplate) => {
-  if (rawQuery.value === '' && boilerplateHistory.value.length > 0) {
-    selectBoilerplate(boilerplateHistory.value[boilerplate.id])
-  } else if (filteredBoilerplates.value.length > 0) {
-    selectBoilerplate(filteredBoilerplates.value[boilerplate.id])
-  }
-}
+// const pressEnterKey = (boilerplate: Boilerplate) => {
+//   if (rawQuery.value === '' && boilerplateHistory.value.length > 0) {
+//     selectBoilerplate(boilerplateHistory.value[boilerplate.id])
+//   } else if (filteredBoilerplates.value.length > 0) {
+//     selectBoilerplate(filteredBoilerplates.value[boilerplate.id])
+//   }
+// }
 
 let nameTimeout: ReturnType<typeof setTimeout> | null = null
 
