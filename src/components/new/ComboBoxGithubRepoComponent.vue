@@ -32,7 +32,10 @@ onMounted(async () => {
     null,
     true,
   )
-  repo.value.featureList = []
+  githubRepos.value.map(repo => {
+    repo.distinctLanguages = []
+    repo.featureList = []
+  })
 })
 
 const filtredGithubRepos = computed(() => {

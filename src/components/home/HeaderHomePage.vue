@@ -4,7 +4,7 @@ const searchStore = useSearchStore()
 </script>
 
 <template>
-  <div class="bg-white dark:bg-[#141723]">
+  <div class="dark:bg-[#141723]">
     <div class="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
       <div class="mx-auto max-w-3xl text-center">
         <h1

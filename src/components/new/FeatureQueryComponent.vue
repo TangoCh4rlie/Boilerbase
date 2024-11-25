@@ -14,10 +14,12 @@ const featureList = computed({
 const featureQuery = ref('')
 
 const addFeature = (): void => {
-  console.log(featureQuery.value, featureQuery.value)
   if (featureQuery.value) {
-    featureList.value?.push(featureQuery.value)
+    if (!featureList.value.includes(featureQuery.value.toLowerCase())) {
+      featureList.value.push(featureQuery.value.toLowerCase())
+    }
     featureQuery.value = ''
+    console.log(featureList.value)
   }
 }
 </script>
