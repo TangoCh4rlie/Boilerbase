@@ -57,5 +57,12 @@ export const useAuthStore = defineStore({
     viewBoilerplate(id: number) {
       fetchWrapper.put(`user/view/${id}`, null, true)
     },
+    async me() {
+      this.user = await fetchWrapper.get('user/me', null, true)
+      if (this.user?.boilerplates) {
+        this.user?.boilerplates.sort((a, b) => a.name.localeCompare(b.name))
+      }
+      localStorage.setItem('user', JSON.stringify(this.user))
+    }
   },
 })

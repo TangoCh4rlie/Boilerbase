@@ -11,10 +11,10 @@ const searchStore = useSearchStore()
           class="text-balance text-6xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 sm:text-6xl"
         >
           Welcome to <span class="text-indigo-600">Boilerbase</span>.<br />Start
-          using boilerplates today.
+          using boilerbase today.
         </h1>
         <p class="mx-auto mt-6 max-w-xl text-pretty text-lg/8 text-gray-600 dark:text-gray-400">
-          Discover, share and use the best boilerplates for your projects. Save
+          Discover, share and use the best template according to your projects. Save
           time and start <span class="text-indigo-600">coding faster!</span>
         </p>
         <div class="mt-10 flex items-center justify-center gap-x-6">

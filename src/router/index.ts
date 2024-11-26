@@ -10,7 +10,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: Home,
+      component: Home
     },
     {
       path: '/profile',

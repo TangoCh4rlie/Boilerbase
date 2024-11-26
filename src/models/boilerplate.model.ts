@@ -9,7 +9,7 @@ export interface Boilerplate {
   gitUrl: string
   languages: string[]
   features: string[]
-  logo?: string
+  logo: string
   likesCounter: number
   usesCounter: number
   authorId: string

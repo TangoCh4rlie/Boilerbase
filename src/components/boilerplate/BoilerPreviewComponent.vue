@@ -34,7 +34,7 @@ defineProps<{
         </div>
       </div>
     </RouterLink>
-    <dl class="-my-3 divide-y divide-gray-100 dark:divide-slate-500 px-6 py-4 text-sm leading-6 dark:bg-slate-900">
+    <dl class="-my-3 divide-y divide-gray-200 dark:divide-slate-500 px-6 py-4 text-sm leading-6 bg-gray-50 dark:bg-slate-900">
       <div class="flex justify-between gap-x-4 py-3">
         <dt class="text-gray-500 dark:text-gray-200">Posted</dt>
         <dd class="text-gray-700 dark:text-gray-400">
