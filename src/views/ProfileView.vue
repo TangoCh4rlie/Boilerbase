@@ -59,7 +59,7 @@ onMounted(async () => {
                     </span>
                     <div class="text-gray-700 dark:text-gray-400 flex items-center gap-1">
                       <p>{{ boilerplate.likesCounter }}</p>
-                      <LikeComponent :boilerplate="boilerplate" />
+                      <LikeComponent :boilerplate="boilerplate" :disabled="true"/>
                     </div>
                     <div class="text-gray-700 dark:text-gray-400 flex items-center gap-1">
                       <p>{{ boilerplate.usesCounter }}</p>
