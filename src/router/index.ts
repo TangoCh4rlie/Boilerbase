@@ -10,7 +10,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: Home,
+      component: Home
     },
     {
       path: '/profile',
@@ -23,10 +23,6 @@ const router = createRouter({
           next('/login')
         }
       }
-    },
-    {
-      path: '/search',
-      component: () => import('@/views/SearchView.vue')
     },
     {
       path: '/boilerplate/:name',
@@ -42,7 +38,15 @@ const router = createRouter({
     },
     {
       path: '/new',
-      component: () => import('@/views/NewBoilerplateView.vue')
+      component: () => import('@/views/boilerplate/NewBoilerplateView.vue'),
+      beforeEnter: (to, from, next) => {
+        const { user } = useAuthStore()
+        if (user) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
     },
     {
       path: '/:pathMatch(.*)*',

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { Bars3Icon, PlusIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { PlusIcon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/vue/24/outline'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth.store'
 
@@ -11,12 +11,17 @@ const navigation = [
   { name: 'Boilerplates', href: '/boilerplates' },
 ]
 
+import { useDark, useToggle } from '@vueuse/core';
+
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
+
 const mobileMenuOpen = ref(false)
 
 </script>
 
 <template>
-  <header class="bg-white">
+  <header class="bg-transparent">
     <nav
       class="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8"
       aria-label="Global"
@@ -28,7 +33,7 @@ const mobileMenuOpen = ref(false)
             src="https://avatars.githubusercontent.com/u/50408224?v=4"
             alt="Logo"
           />
-          <h1 class="text-balance text-4xl font-semibold tracking-tight text-gray-900">Boilerbase</h1>
+          <h1 class="text-balance text-4xl font-semibold tracking-tight text-gray-900 dark:text-gray-200">Boilerbase</h1>
         </a>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
@@ -41,7 +46,7 @@ const mobileMenuOpen = ref(false)
 <!--              name="search"-->
 <!--              id="search"-->
 <!--              placeholder="Search..."-->
-<!--              class="block w-full rounded-md border-0 py-1.5 pl-2 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:border-slate-400 hover:border-slate-300 focus:shadow sm:text-sm sm:leading-6"-->
+<!--              class="block w-full rounded-md border-0 py-1.5 pl-2 pr-14 text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:border-slate-400 hover:border-slate-300 focus:shadow sm:text-sm sm:leading-6"-->
 <!--            />-->
 <!--            <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">-->
 <!--              <kbd-->
@@ -62,6 +67,16 @@ const mobileMenuOpen = ref(false)
           <PlusIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
           Publish
         </button>
+        <div
+          @click="toggleDark()"
+        >
+          <MoonIcon
+            v-if="isDark"
+            class="h-6 w-6 cursor-pointer dark:text-gray-200" />
+          <SunIcon
+            v-else
+            class="h-6 w-6 cursor-pointer" />
+        </div>
         <span
           v-if="user !== null"
           class="relative inline-block"
@@ -80,7 +95,7 @@ const mobileMenuOpen = ref(false)
         <a
           v-else
           href="/login"
-          class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+          class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
           >Log in</a
         >
       </div>
@@ -115,7 +130,7 @@ const mobileMenuOpen = ref(false)
           </a>
           <a
             href="#"
-            class="ml-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            class="ml-auto rounded-md bg-indigo-600  px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >Sign up</a
           >
           <button
@@ -134,14 +149,14 @@ const mobileMenuOpen = ref(false)
                 v-for="item in navigation"
                 :key="item.name"
                 :href="item.href"
-                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 dark:text-gray-200 hover:bg-gray-50"
                 >{{ item.name }}</a
               >
             </div>
             <div class="py-6">
               <a
                 href="#"
-                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 dark:text-gray-200 hover:bg-gray-50"
                 >Log in</a
               >
             </div>

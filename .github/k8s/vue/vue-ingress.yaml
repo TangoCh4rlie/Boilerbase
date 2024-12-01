@@ -1,0 +1,45 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: boilerbase-webapp-ingress-https
+  namespace: boilerbase
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`super-sympa.fr`)
+      kind: Rule
+      services:
+        - name: boilerbase-webapp-svc
+          port: 80
+  tls:
+    secretName: boilerbase-webapp-cert-secret-tls
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-https
+  namespace: boilerbase
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: boilerbase-webapp-ingress-http
+  namespace: boilerbase
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`super-sympa.fr`)
+      kind: Rule
+      middlewares:
+        - name: redirect-to-https
+      services:
+        - name: boilerbase-webapp-svc
+          port: 80

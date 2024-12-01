@@ -1,10 +1,13 @@
 @import "utilities.css";
 @import "markdown.css";
 @import "components.css";
-/*@import '/node_modules/flowbite-vue/dist/index.css';*/
-
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*set global bacground style to class="bg-white dark:bg-[#141723]"*/
+html {
+  @apply bg-white dark:bg-[#141723];
+}
 

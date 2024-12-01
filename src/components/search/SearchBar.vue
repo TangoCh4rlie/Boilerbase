@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import { ChevronRightIcon, CpuChipIcon, LifebuoyIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
+import {
+  ChevronRightIcon,
+} from '@heroicons/vue/24/outline'
 import {
   Combobox,
   ComboboxInput,
@@ -17,10 +19,15 @@ import { storeToRefs } from 'pinia'
 import { useSearchStore } from '@/stores/search.store'
 import type { Boilerplate } from '@/models/boilerplate.model'
 import { useAuthStore } from '@/stores/auth.store'
+import NoHistoryComponent from '@/components/search/NoHistoryComponent.vue'
+import FooterSearchBarComponent from '@/components/search/FooterSearchBarComponent.vue'
+import NotFoundComponent from '@/components/search/NotFoundComponent.vue'
+import LoadingSearchComponent from '@/components/search/LoadingSearchComponent.vue'
+import HelpComponent from '@/components/search/HelpComponent.vue'
+import BoilerplateInformationComponent from '@/components/search/BoilerplateInformationComponent.vue'
 
 const boilerplateStore = useBoilerplateStore()
-const { searchedBoilerplates, boilerplateHistory } =
-  storeToRefs(boilerplateStore)
+const { searchedBoilerplates, boilerplateHistory } = storeToRefs(boilerplateStore)
 
 const searchStore = useSearchStore()
 const { name, languages, features, displaySearchBar } = storeToRefs(searchStore)
@@ -28,15 +35,9 @@ const { name, languages, features, displaySearchBar } = storeToRefs(searchStore)
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 
-const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Escape') {
-    event.preventDefault()
-    displaySearchBar.value = false
-  }
-}
-
 onMounted(() => {
-  window.addEventListener('keydown', handleKeydown)
+  window.addEventListener('keydown', handleKeydownSpace)
+  window.addEventListener('keydown', handleKeydownK)
   searchedBoilerplates.value = []
   if (user.value !== null) {
     boilerplateStore.getBoilerplateHistory()
@@ -44,12 +45,26 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('keydown', handleKeydown)
+  window.removeEventListener('keydown', handleKeydownSpace)
+  window.removeEventListener('keydown', handleKeydownK)
 })
 
+const handleKeydownK = (event: KeyboardEvent) => {
+  if (event.metaKey && event.key === 'k') {
+    event.preventDefault()
+    displaySearchBar.value = true
+  }
+}
+
+const handleKeydownSpace = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    event.preventDefault()
+    displaySearchBar.value = false
+  }
+}
+
 const rawQuery = ref('')
-const isSearching = ref(false);
-let nameTimeout: ReturnType<typeof setTimeout> | null = null
+const isSearching = ref(false)
 
 const filteredBoilerplates = computed(() =>
   rawQuery.value === '' || rawQuery.value === '?'
@@ -68,11 +83,21 @@ const filteredBoilerplates = computed(() =>
     }),
 )
 
-function selectBoilerplate(boilerplate: Boilerplate) {
+const selectBoilerplate = async (boilerplate: Boilerplate) => {
   if (boilerplate) {
     window.location.href = '/boilerplate/' + boilerplate.name
   }
 }
+
+// const pressEnterKey = (boilerplate: Boilerplate) => {
+//   if (rawQuery.value === '' && boilerplateHistory.value.length > 0) {
+//     selectBoilerplate(boilerplateHistory.value[boilerplate.id])
+//   } else if (filteredBoilerplates.value.length > 0) {
+//     selectBoilerplate(filteredBoilerplates.value[boilerplate.id])
+//   }
+// }
+
+let nameTimeout: ReturnType<typeof setTimeout> | null = null
 
 watch(rawQuery, newQuery => {
   if (nameTimeout) {
@@ -108,11 +133,7 @@ async function search() {
 </script>
 
 <template>
-  <TransitionRoot
-    :show="displaySearchBar"
-    as="template"
-    appear
-  >
+  <TransitionRoot :show="displaySearchBar" as="template" appear>
     <Dialog class="relative z-10" @close="displaySearchBar = false">
       <TransitionChild
         as="template"
@@ -141,7 +162,7 @@ async function search() {
           leave-to="opacity-0 scale-95"
         >
           <DialogPanel
-            class="mx-auto max-w-3xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
+            class="mx-auto max-w-3xl transform divide-y divide-gray-100 dark:divide-slate-700 dark:ring-gray-500 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
           >
             <Combobox v-slot="{ activeOption }">
               <div class="relative">
@@ -150,7 +171,7 @@ async function search() {
                   aria-hidden="true"
                 />
                 <ComboboxInput
-                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 dark:text-gray-200 dark:bg-gray-900 placeholder:text-gray-400 dark:placeholder-gray-300 focus:ring-0 sm:text-sm outline-none"
                   placeholder="Search..."
                   @change="rawQuery = $event.target.value"
                 />
@@ -161,24 +182,19 @@ async function search() {
                   rawQuery === '' ||
                   (filteredBoilerplates && filteredBoilerplates.length > 0)
                 "
-                class="flex transform-gpu divide-x divide-gray-100"
+                class="flex transform-gpu divide-x divide-gray-100 dark:divide-slate-800 dark:text-gray-200 dark:bg-gray-900"
                 as="div"
                 static
                 hold
               >
                 <div
+                  v-if="rawQuery !== '' || boilerplateHistory?.length > 0"
                   :class="[
                     'max-h-96 min-w-0 flex-auto scroll-py-4 overflow-y-auto px-6 py-4',
                     activeOption && 'sm:h-96',
                   ]"
                 >
-                  <h2
-                    v-if="rawQuery === ''"
-                    class="mb-4 mt-2 text-xs font-semibold text-gray-500"
-                  >
-                    Recent searches
-                  </h2>
-                  <div hold class="-mx-2 text-sm text-gray-700">
+                  <div class="-mx-2 text-sm text-gray-700 dark:text-gray-500">
                     <ComboboxOption
                       v-for="boilerplate in rawQuery === ''
                         ? boilerplateHistory
@@ -192,7 +208,7 @@ async function search() {
                       <div
                         :class="[
                           'group flex cursor-default select-none items-center rounded-md p-2',
-                          active && 'bg-gray-100 text-gray-900',
+                          active && 'bg-gray-100 text-gray-900 dark:text-gray-200 dark:bg-gray-800',
                         ]"
                       >
                         <img
@@ -213,134 +229,32 @@ async function search() {
                   </div>
                 </div>
 
-                <div
+                <BoilerplateInformationComponent
+                  :activeOption="activeOption"
                   v-if="activeOption"
-                  class="hidden h-96 w-1/2 flex-none flex-col divide-y divide-gray-100 overflow-y-auto sm:flex"
-                >
-                  <div class="flex-none p-6 text-center">
-                    <img
-                      :src="activeOption.logo"
-                      alt=""
-                      class="mx-auto h-16 w-16 rounded-full"
-                    />
-                    <h2 class="mt-3 text-lg font-semibold text-gray-900">
-                      {{ activeOption.name }}
-                    </h2>
-                    <p class="text-sm/6 text-gray-500">
-                      By {{ activeOption.gitUrl.split('/')[3] }}
-                    </p>
-                  </div>
-                  <div class="flex flex-auto flex-col justify-between p-6">
-                    <dl
-                      class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-700"
-                    >
-                      <dt class="col-end-1 font-semibold text-gray-900">
-                        Languages
-                      </dt>
-                      <dd>
-                        <span
-                          v-for="(language, index) in activeOption.languages"
-                          :key="index"
-                          class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 mr-0.5 mb-0.5"
-                          >{{ language }}</span
-                        >
-                      </dd>
-                      <dt class="col-end-1 font-semibold text-gray-900">
-                        Features
-                      </dt>
-                      <dd>
-                        <span
-                          v-for="(feature, index) in activeOption.features"
-                          :key="index"
-                          class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 mr-0.5 mb-0.5"
-                          >{{ feature }}</span
-                        >
-                      </dd>
-                      <dt class="col-end-1 font-semibold text-gray-900">
-                        GitHub
-                      </dt>
-                      <dd class="truncate">
-                        <a
-                          :href="`${activeOption.gitUrl}`"
-                          class="text-indigo-600 cursor-pointer"
-                        >
-                          {{ activeOption.gitUrl }}
-                        </a>
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
+                />
               </ComboboxOptions>
 
-              <div v-if="rawQuery === '?'" class="px-6 py-14 text-center text-sm sm:px-14">
-                <LifebuoyIcon class="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
-                <p class="mt-4 font-semibold text-gray-900">Help with searching</p>
-<!--                TODO: faire des exemple de commandes custom-->
-                <p class="mt-2 text-gray-500">Use this tool to quickly search for users and projects across our entire platform. You can also use the search modifiers found in the footer below to limit the results to just users or projects.</p>
-              </div>
-
-              <div v-if="isSearching === true" class="px-6 py-14 text-center text-sm sm:px-14">
-                <ArrowPathIcon class="mx-auto animate-spin h-6 w-6 text-gray-400" aria-hidden="true" />
-                <p class="mt-4 font-semibold text-gray-900">Searching boilerplates for you...</p>
-              </div>
-
-              <div
+              <HelpComponent :raw-query="rawQuery" />
+              <LoadingSearchComponent :isSearching/>
+              <NoHistoryComponent
+                v-if="
+                  boilerplateStore.boilerplateHistory?.length === 0 &&
+                  rawQuery === ''
+                "
+              />
+              <NotFoundComponent
                 v-if="
                   rawQuery !== '' &&
                   rawQuery !== '?' &&
-                  isSearching === false &&
+                  !isSearching &&
                   filteredBoilerplates &&
                   filteredBoilerplates.length === 0
                 "
-                class="px-6 py-14 text-center text-sm sm:px-14"
-              >
-                <CpuChipIcon
-                  class="mx-auto h-6 w-6 text-gray-400"
-                  aria-hidden="true"
-                />
-                <p class="mt-4 font-semibold text-gray-900">
-                  No boilerplate found
-                </p>
-                <p class="mt-2 text-gray-500">
-                  We couldn’t find anything with theses terms. Please try again.
-                </p>
-              </div>
-
-              <div
-                class="flex flex-wrap items-center bg-gray-50 px-4 py-2.5 text-xs text-gray-700"
-              >
-                Type
-                <kbd
-                  :class="[
-                    'mx-1 flex h-5 w-5 items-center justify-center rounded border bg-white font-semibold sm:mx-2',
-                    rawQuery.includes('#')
-                      ? 'border-indigo-600 text-indigo-600'
-                      : 'border-gray-400 text-gray-900',
-                  ]"
-                  >#</kbd
-                >
-                <span class="hidden sm:inline">to filter languages,</span>
-                <kbd
-                  :class="[
-                    'mx-1 flex h-5 w-5 items-center justify-center rounded border bg-white font-semibold sm:mx-2',
-                    rawQuery.includes('>')
-                      ? 'border-indigo-600 text-indigo-600'
-                      : 'border-gray-400 text-gray-900',
-                  ]"
-                  >&gt;</kbd
-                >
-                for features, and
-                <kbd
-                  :class="[
-                    'mx-1 flex h-5 w-5 items-center justify-center rounded border bg-white font-semibold sm:mx-2',
-                    rawQuery === '?'
-                      ? 'border-indigo-600 text-indigo-600'
-                      : 'border-gray-400 text-gray-900',
-                  ]"
-                  >?</kbd
-                >
-                for query examples.
-              </div>
+              />
+              <FooterSearchBarComponent
+                :rawQuery="rawQuery"
+              />
             </Combobox>
           </DialogPanel>
         </TransitionChild>

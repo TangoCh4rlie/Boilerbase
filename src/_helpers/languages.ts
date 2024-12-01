@@ -14,7 +14,7 @@ export const availableLanguages: string[] = [
   'kotlin',
   'rust',
   'scala',
-  'vue',
+  'vuejs',
   'react',
   'angular',
   'svelte',
@@ -45,5 +45,5 @@ export const availableLanguages: string[] = [
   'crystal',
   'julia',
   'html5',
-  'css'
+  'css3'
 ];

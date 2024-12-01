@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
-import type { Boilerplate } from '@/models/boilerplate.model'
+import type { Boilerplate, CreateBoilerplate } from '@/models/boilerplate.model'
 import { fetchWrapper } from '@/_helpers/fetch-wrapper'
 
 export const useBoilerplateStore = defineStore({
   id: 'boilerplateStore',
   state: () => ({
-    topBoilerplates: null as Boilerplate[] | null,
-    searchedBoilerplates: null as Boilerplate[] | null,
-    boilerplateHistory: null as Boilerplate[] | null,
+    topBoilerplates: [] as Boilerplate[],
+    searchedBoilerplates: [] as Boilerplate[],
+    boilerplateHistory: [] as Boilerplate[],
   }),
   actions: {
     async getTopBoilerplate() {
@@ -60,5 +60,14 @@ export const useBoilerplateStore = defineStore({
         true,
       )
     },
+    async newBoilerplate(boilerplate: CreateBoilerplate) {
+      await fetchWrapper.post('boilerplate', JSON.stringify(boilerplate), true)
+      window.location.href = '/boilerplate/' + boilerplate.name
+      // if (response.status === 200 && file) {
+      //   const formData = new FormData()
+      //   formData.append('file', file)
+      //   await fetchWrapper.post(`boilerplate/logo/${boilerplate.name}`, formData, true)
+      // }
+    }
   },
 })
