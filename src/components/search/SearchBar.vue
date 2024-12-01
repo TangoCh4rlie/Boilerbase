@@ -236,7 +236,10 @@ async function search() {
               </ComboboxOptions>
 
               <HelpComponent :raw-query="rawQuery" />
-              <LoadingSearchComponent :isSearching/>
+              <LoadingSearchComponent
+                v-if="rawQuery !== '' && isSearching"
+                :isSearching
+              />
               <NoHistoryComponent
                 v-if="
                   boilerplateStore.boilerplateHistory?.length === 0 &&

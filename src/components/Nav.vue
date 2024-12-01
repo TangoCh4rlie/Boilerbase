@@ -28,11 +28,11 @@ const mobileMenuOpen = ref(false)
     >
       <div class="flex lg:flex-1">
         <a href="/" class="-m-1.5 p-1.5 flex gap-3.5">
-          <img
-            class="h-10 rounded w-auto"
-            src="https://avatars.githubusercontent.com/u/50408224?v=4"
-            alt="Logo"
-          />
+<!--          <img-->
+<!--            class="h-10 rounded w-auto"-->
+<!--            src="https://avatars.githubusercontent.com/u/50408224?v=4"-->
+<!--            alt="Logo"-->
+<!--          />-->
           <h1 class="text-balance text-4xl font-semibold tracking-tight text-gray-900 dark:text-gray-200">Boilerbase</h1>
         </a>
       </div>

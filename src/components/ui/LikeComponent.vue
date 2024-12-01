@@ -7,8 +7,9 @@ import { useBoilerplateStore } from '@/stores/boilerplate.store'
 import { useAuthStore } from '@/stores/auth.store'
 import { storeToRefs } from 'pinia'
 
-defineProps<{
+const props = defineProps<{
   boilerplate: Boilerplate
+  disabled?: boolean
 }>()
 
 const authStore = useAuthStore()
@@ -17,6 +18,7 @@ const { user } = storeToRefs(authStore)
 const boilerplateStore = useBoilerplateStore()
 
 const likeBoilerplate = (boilerplate: Boilerplate) => {
+  if (props.disabled) return
   if (user.value !== null) {
     if (boilerplate) {
       if (boilerplate.liked) {

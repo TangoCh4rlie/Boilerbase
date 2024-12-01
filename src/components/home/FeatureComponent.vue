@@ -1,27 +1,24 @@
 <script setup lang="ts">
-import { BoltIcon, CalendarDaysIcon, UsersIcon } from '@heroicons/vue/24/outline'
+import { ClockIcon, UsersIcon, WrenchScrewdriverIcon } from '@heroicons/vue/24/outline'
 
 const primaryFeatures = [
   {
     name: 'Community',
     description:
       'Quickly find boilerplates published by the community with the search bar by pressing ctrl + k. Don\'t hesitate to share your best boilerplates with the community.',
-    href: '#',
     icon: UsersIcon,
   },
   {
-    name: 'Server monitoring',
+    name: 'Customize',
     description:
-      'Non quo aperiam repellendus quas est est. Eos aut dolore aut ut sit nesciunt. Ex tempora quia. Sit nobis consequatur dolores incidunt.',
-    href: '#',
-    icon: BoltIcon,
+      'Start your project with the best practices of the language you chose. Use the standard configuration or customize it to your liking.',
+    icon: WrenchScrewdriverIcon,
   },
   {
-    name: 'Task scheduling',
+    name: 'Save time',
     description:
-      'Et quod quaerat dolorem quaerat architecto aliquam accusantium. Ex adipisci et doloremque autem quia quam. Quis eos molestiae at iure impedit.',
-    href: '#',
-    icon: CalendarDaysIcon,
+      'Get started on your projects faster and more efficiently with Boilerbase. No need to waste time setting up your project.',
+    icon: ClockIcon,
   },
 ]
 </script>
